@@ -16,7 +16,6 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-
     }
 
     @Override
