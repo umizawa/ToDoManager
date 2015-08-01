@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class DetailActivity extends ActionBarActivity {
@@ -26,13 +27,35 @@ public class DetailActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.action_settings:                // 設定選択時の処理
+                toast("settings");
+                break;
+            case R.id.menu1:                // メニュー１選択時の処理
+                toast("menu1");
+                break;
+            case R.id.menu2:                // メニュー2選択時の処理
+                toast("menu2");
+                break;
+            case R.id.menu3:                // メニュー3選択時の処理
+                toast("menu3");
+                break;
+            case R.id.menu4:                // メニュー4選択時の処理
+                toast("menu4");
+                break;
+            case R.id.menu5:                // メニュー5選択時の処理
+                toast("menu5");
+                break;
+            case R.id.menu6:                // メニュー6選択時の処理
+                toast("menu6");
+                break;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toast(String text){
+        if(text == null) text = "";
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }
