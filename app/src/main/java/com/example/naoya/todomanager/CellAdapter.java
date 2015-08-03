@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.net.ContentHandler;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -69,9 +70,8 @@ public class CellAdapter extends BaseAdapter { //ggr
         cellHolder.importance.setText(convertImportanceToString(cellData.getImportance()));
     }
 
-    static private final String DATE_PATTERN ="yyyy-MM-dd'T'HH:mm:ss";
     public String convertDateToString(java.util.Date date) {
-        return (new SimpleDateFormat(DATE_PATTERN)).format(date);
+        return DateFormat.getDateInstance().format(date);
     }
 
     public String convertImportanceToString(int importance) {

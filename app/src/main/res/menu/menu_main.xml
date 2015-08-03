@@ -1,25 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu1"
-        android:title="メニュー１"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="項目の追加"
+        android:icon="@android:drawable/ic_menu_add"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu2"
-        android:title="メニュー２"
-        android:icon="@android:drawable/ic_menu_call"
-        app:showAsAction="ifRoom"/>
+        android:title="編集"
+        android:icon="@android:drawable/ic_menu_edit"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/menu3"
-        android:title="メニュー３"
-        android:icon="@android:drawable/ic_menu_compass"
-        />
+        android:title="検索"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu4"
         android:title="メニュー4"

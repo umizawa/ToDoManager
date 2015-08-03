@@ -1,21 +1,46 @@
 package com.example.naoya.todomanager;
 
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity { //ツールバー
-
+    
     @Override                                                                                       //アクティビティ起動時に呼び出し
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        Calendar nowCalendar = Calendar.getInstance();
+
+        CellData cellData1 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト1","テス1");
+        CellData cellData2 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト2","テス2");
+        CellData cellData3 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト3","テス3");
+        CellData cellData4 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト4","テス4");
+        CellData cellData5 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト5","テス5");
+
+        List<CellData> cellDataList = new ArrayList<>();
+        cellDataList.add(cellData1);
+        cellDataList.add(cellData2);
+        cellDataList.add(cellData3);
+        cellDataList.add(cellData4);
+        cellDataList.add(cellData5);
+
+        CellAdapter cellAdapter = new CellAdapter(this,cellDataList);
+
+        ListView listView= (ListView) findViewById(R.id.list_view);
+        listView.setAdapter(cellAdapter);
     }
 
     @Override
