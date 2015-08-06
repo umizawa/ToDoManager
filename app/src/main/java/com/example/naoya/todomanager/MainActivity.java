@@ -1,5 +1,6 @@
 package com.example.naoya.todomanager;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,12 +25,12 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         setSupportActionBar(toolbar);
         Calendar nowCalendar = Calendar.getInstance();
 
-        CellData cellData1 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト1","テス1");
-        CellData cellData2 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト2","テス2");
-        CellData cellData3 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト3","テス3");
-        CellData cellData4 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト4","テス4");
-        CellData cellData5 = new CellData(R.mipmap.ic_launcher,1,nowCalendar.getTime(),nowCalendar.getTime(),"テスト5","テス5");
-
+        //～仮初めのリスト共～
+        CellData cellData1 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト1");
+        CellData cellData2 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト2");
+        CellData cellData3 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト3");
+        CellData cellData4 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト4");
+        CellData cellData5 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト5");
         List<CellData> cellDataList = new ArrayList<>();
         cellDataList.add(cellData1);
         cellDataList.add(cellData2);
@@ -63,6 +64,8 @@ public class MainActivity extends ActionBarActivity { //ツールバー
                 break;
             case R.id.menu1:                // メニュー１選択時の処理
                 toast("menu1");
+                Intent intent = new Intent(this,EditActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu2:                // メニュー2選択時の処理
                 toast("menu2");

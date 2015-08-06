@@ -9,24 +9,25 @@ import java.util.Date;
 public class CellData {
 
     private int imageResourceId;
-    private int importance;
-    private Date editDay, dueDay;
-    private String title, message;
+//    private int importance;
+    private Date  dueDay;//,editDay;
+    private String title;//,message;
 
-    public CellData(int imageResourceId, int importance, Date editDay, Date dueDay, String title, String message){
+//    public CellData(int imageResourceId, int importance, Date editDay, Date dueDay, String title, String message){
+    public CellData(int imageResourceId, Date dueDay, String title){
         this.imageResourceId = imageResourceId;
-        this.importance = importance;
-        this.editDay = editDay;
         this.dueDay = dueDay;
         this.title = title;
-        this.message = message;
+//        this.importance = importance;
+//        this.editDay = editDay;
+//        this.message = message;
     }
 
     public int getImageResourceId() {return imageResourceId;}
-    public int getImportance() {return importance;}
-    public Date getEditDay() {return editDay;}
     public Date getDueDay() {return dueDay;}
     public String getTitle() {return title;}
-    public String getMessage() {return message;}
+//    public int getImportance() {return importance;}
+//    public Date getEditDay() {return editDay;}
+//    public String getMessage() {return message;}
 
 }
