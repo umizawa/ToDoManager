@@ -4,6 +4,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/naoya/todomanager/CellAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/naoya/todomanager/CellData.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/naoya/todomanager/DetailActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/naoya/todomanager/SQLite.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/naoya/todomanager/ToDoData.java" charset="UTF-8" />
   </component>
 </project>
