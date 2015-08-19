@@ -13,28 +13,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu2"
-        android:title="編集"
-        android:icon="@android:drawable/ic_menu_edit"
-        app:showAsAction="ifRoom"
-        />
-    <item
-        android:id="@+id/menu3"
         android:title="検索"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu4"
-        android:title="メニュー4"
-        android:icon="@android:drawable/ic_menu_set_as"
-        />
-    <item
-        android:id="@+id/menu5"
-        android:title="メニュー5"
-        android:icon="@android:drawable/ic_menu_camera"
-        />
-    <item
-        android:id="@+id/menu6"
-        android:title="メニュー6"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        />
 </menu>

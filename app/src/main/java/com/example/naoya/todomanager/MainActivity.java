@@ -70,17 +70,7 @@ public class MainActivity extends ActionBarActivity { //ツールバー
             case R.id.menu2:                // メニュー2選択時の処理
                 toast("menu2");
                 break;
-            case R.id.menu3:                // メニュー3選択時の処理
-                toast("menu3");
-                break;
-            case R.id.menu4:                // メニュー4選択時の処理
-                toast("menu4");
-                break;
-            case R.id.menu5:                // メニュー5選択時の処理
-                toast("menu5");
-                break;
-            case R.id.menu6:                // メニュー6選択時の処理
-                toast("menu6");
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);

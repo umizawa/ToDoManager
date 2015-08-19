@@ -13,7 +13,7 @@ public class ToDoData extends RealmObject{
     private boolean repeatFlag;
     private Date editDay;
     private Date dueDay;
-    private byte repeatDay[] = new byte[7];
+    private boolean finishFlag;
 
     public String getTitle(){return title;}
     public void setTitle(String title){this.title = title;}
@@ -31,11 +31,7 @@ public class ToDoData extends RealmObject{
     public void setEditDay(Date editDay){this.editDay = editDay;}
     public Date getDueDay(){return dueDay;}
     public void setDueDay(Date dueDay){this.dueDay = dueDay;}
-    public byte getRepeatDay(int day){
-        if (0 <= day && day <= 6)return repeatDay[day];
-        else return -1;}
-    public void setRepeatDay(int day, byte repeatDay){
-        if (0 <= day && day <= 6)this.repeatDay[day] = repeatDay;
-    }
+    public boolean getFinishFlag(){return finishFlag;}
+    public void setFinishFlag(boolean finishFlag){this.finishFlag = finishFlag;}
 }
 
