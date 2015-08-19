@@ -1,14 +1,27 @@
 package com.example.naoya.todomanager;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import io.realm.Realm;
 
 
 public class EditActivity extends ActionBarActivity {
+
+    private EditText title;
+    private Date dueDay;
+    private Spinner importance;
+    private Date remindDay;
+    private Spinner group;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +39,19 @@ public class EditActivity extends ActionBarActivity {
         return true;
     }
 
+    public void registerToDoData(){
+
+        realm = Realm.getInstance(this);
+        realm.beginTransaction();
+        ToDoData toDoData = realm.createObject(ToDoData.class); // Create a new object
+
+        toDoData.setEditDay(Calendar.getInstance().getTime());
+        title = (EditText)findViewById(R.id.name);
+        toDoData.setTitle(title.toString());
+
+        realm.commitTransaction();
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -38,6 +64,7 @@ public class EditActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.menu1:                // メニュー１選択時の処理
                 editFinished = true;
+                registerToDoData();
                 break;
             default:
                 break;
