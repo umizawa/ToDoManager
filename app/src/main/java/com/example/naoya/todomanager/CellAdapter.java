@@ -11,9 +11,6 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.List;
 
-/**
- * Created by Naoya on 2015/07/30.
- */
 public class CellAdapter extends BaseAdapter { //ggr
     private Context context;
     private List<CellData> cellDataList;
