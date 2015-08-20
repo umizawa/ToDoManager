@@ -3,9 +3,12 @@ package com.example.naoya.todomanager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 
 import java.util.Calendar;
@@ -22,6 +25,7 @@ public class EditActivity extends ActionBarActivity {
     private Date remindDay;
     private Spinner group;
     private Realm realm;
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,45 @@ public class EditActivity extends ActionBarActivity {
 
         realm.commitTransaction();
     }
-    
+    public void popupDatePicker(View view){
+
+        mPopupWindow = new PopupWindow(EditActivity.this);
+
+        // レイアウト設定
+        View popupView = getLayoutInflater().inflate(R.layout.popup_datepicker, null);
+        popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        mPopupWindow.setContentView(popupView);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.showAtLocation(findViewById(R.id.close_button), Gravity.CENTER, 0, 0);
+    }
+    public void popupTimePicker(View view){
+
+        mPopupWindow = new PopupWindow(EditActivity.this);
+
+        // レイアウト設定
+        View popupView = getLayoutInflater().inflate(R.layout.popup_timepicker, null);
+        popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+        mPopupWindow.setContentView(popupView);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.showAtLocation(findViewById(R.id.close_button), Gravity.CENTER, 0, 0);
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

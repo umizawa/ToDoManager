@@ -17,125 +17,126 @@
             app:theme="@style/toolbarTheme"
             app:popupTheme="@style/toolbarMenuTheme"
             />
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+            android:id="@+id/label_thumbnail"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="アイコン"/>
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher"
-                />
-            <LinearLayout
+                android:layout_below="@id/label_thumbnail"/>                />
+            <TextView
+                android:id="@+id/label_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thumbnail"
+                android:text="名前"/>
+            <EditText
+                android:id="@+id/name"
+                android:paddingLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/label_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="名前"/>
-                    <EditText
-                        android:id="@+id/name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="名前を入力してください"/>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:layout_below="@id/label_name"
+                android:text="名前を入力してください"/>
             <TextView
                 android:id="@+id/label_due_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/name"
                 android:text="期日"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="期日を入力してください"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <TextView
+                android:id="@+id/due_day_picker_text"
+                android:paddingLeft="10dp"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/label_due_day"
+                android:clickable="true"
+                android:onClick="popupDatePicker"
+                android:text="YYYY/MM/DD"/>
+            <TextView
+                android:id="@+id/due_time_picker_text"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_due_day"
+                android:layout_toRightOf="@id/due_day_picker_text"
+                android:paddingLeft="10dp"
+                android:clickable="true"
+                android:onClick="popupTimePicker"
+                android:text="HH:MM"/>
+            <TextView
+                android:id="@+id/label_importance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/due_time_picker_text"
                 android:text="重要度"/>
             <Spinner
-                android:paddingLeft="10dp"
                 android:id="@+id/spinner_importance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/importance_values"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="リマインダー"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="通知日時を入力してください"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="グループ"/>
-            <Spinner
                 android:paddingLeft="10dp"
-                android:id="@+id/group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/label_importance"
                 android:entries="@array/importance_values"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <TextView
+                android:id="@+id/label_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/spinner_importance"
+                android:text="リマインダー"/>
+            <TextView
+                android:id="@+id/reminder_day_picker_text"
+                android:paddingLeft="10dp"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_reminder"
+                android:clickable="true"
+                android:onClick="popupDatePicker"
+                android:text="YYYY/MM/DD"/>
+            <TextView
+                android:id="@+id/reminder_time_picker_text"
+                android:paddingLeft="10dp"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_reminder"
+                android:layout_toRightOf="@id/reminder_day_picker_text"
+                android:clickable="true"
+                android:onClick="popupTimePicker"
+                android:text="HH:MM"/>
+            <TextView
+                android:id="@+id/label_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/reminder_day_picker_text"
                 android:text="タグ"/>
             <Spinner
+                android:id="@+id/spinner_tag"
                 android:paddingLeft="10dp"
-                android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/label_tags"
                 android:entries="@array/importance_values"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <TextView
+                android:id="@+id/label_repeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/spinner_tag"
                 android:text="繰り返し"/>
             <Spinner
+                android:id="@+id/spinner_repeat"
                 android:paddingLeft="10dp"
-                android:id="@+id/repeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/label_repeat"
                 android:entries="@array/importance_values"/>
-        </LinearLayout>
-
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
