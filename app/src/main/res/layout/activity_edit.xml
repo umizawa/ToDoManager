@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_edit_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.naoya.todomanager.EditActivity">
@@ -30,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher"
-                android:layout_below="@id/label_thumbnail"/>                />
+                android:layout_below="@id/label_thumbnail"/>
             <TextView
                 android:id="@+id/label_name"
                 android:layout_width="wrap_content"
@@ -43,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_name"
+                android:inputType="text"
                 android:text="名前を入力してください"/>
             <TextView
                 android:id="@+id/label_due_day"
@@ -57,8 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_due_day"
-                android:clickable="true"
-                android:onClick="popupDatePicker"
                 android:text="YYYY/MM/DD"/>
             <TextView
                 android:id="@+id/due_time_picker_text"
@@ -68,8 +68,6 @@
                 android:layout_below="@id/label_due_day"
                 android:layout_toRightOf="@id/due_day_picker_text"
                 android:paddingLeft="10dp"
-                android:clickable="true"
-                android:onClick="popupTimePicker"
                 android:text="HH:MM"/>
             <TextView
                 android:id="@+id/label_importance"
@@ -97,8 +95,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_reminder"
-                android:clickable="true"
-                android:onClick="popupDatePicker"
                 android:text="YYYY/MM/DD"/>
             <TextView
                 android:id="@+id/reminder_time_picker_text"
@@ -108,8 +104,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/label_reminder"
                 android:layout_toRightOf="@id/reminder_day_picker_text"
-                android:clickable="true"
-                android:onClick="popupTimePicker"
                 android:text="HH:MM"/>
             <TextView
                 android:id="@+id/label_tags"

@@ -1,15 +1,20 @@
 package com.example.naoya.todomanager;
 
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,15 +22,18 @@ import java.util.Date;
 import io.realm.Realm;
 
 
-public class EditActivity extends ActionBarActivity {
-
+public class EditActivity extends ActionBarActivity implements OnClickListener {
     private EditText title;
     private Date dueDay;
     private Spinner importance;
     private Date remindDay;
     private Spinner group;
     private Realm realm;
-    private PopupWindow mPopupWindow;
+    TextView due_day_picker_text;
+    TextView due_time_picker_text;
+    TextView reminder_day_picker_text;
+    TextView reminder_time_picker_text;
+    private AlertDialog.Builder alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +42,30 @@ public class EditActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
+        setClickListenerOnTextViews();
+        due_day_picker_text.setOnClickListener(this);
+        due_time_picker_text.setOnClickListener(this);
+        reminder_day_picker_text.setOnClickListener(this);
+        reminder_time_picker_text.setOnClickListener(this);
+    }
+    @Override
+    public void onClick(View v) {
+        alertDialog = new AlertDialog.Builder(this);
+        if (v.getId() == R.id.due_day_picker_text) {
+            alertDatePicker(v);
+        }
+        else if(v.getId() == R.id.due_time_picker_text) {
+            alertTimePicker(v);
+        }
+        else if(v.getId() == R.id.reminder_day_picker_text) {
+            alertDatePicker(v);
+        }
+        else if(v.getId() == R.id.reminder_time_picker_text) {
+            alertTimePicker(v);
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -55,44 +85,51 @@ public class EditActivity extends ActionBarActivity {
 
         realm.commitTransaction();
     }
-    public void popupDatePicker(View view){
-
-        mPopupWindow = new PopupWindow(EditActivity.this);
-
-        // レイアウト設定
-        View popupView = getLayoutInflater().inflate(R.layout.popup_datepicker, null);
-        popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPopupWindow.isShowing()) {
-                    mPopupWindow.dismiss();
-                }
-            }
-        });
-        mPopupWindow.setContentView(popupView);
-        mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.showAtLocation(findViewById(R.id.close_button), Gravity.CENTER, 0, 0);
+    public void setClickListenerOnTextViews(){
+        due_day_picker_text = (TextView)findViewById(R.id.due_day_picker_text);
+        due_day_picker_text.setClickable(true);
+        due_time_picker_text = (TextView)findViewById(R.id.due_time_picker_text);
+        due_time_picker_text.setClickable(true);
+        reminder_day_picker_text = (TextView)findViewById(R.id.reminder_day_picker_text);
+        reminder_day_picker_text.setClickable(true);
+        reminder_time_picker_text = (TextView)findViewById(R.id.reminder_time_picker_text);
+        reminder_time_picker_text.setClickable(true);
     }
-    public void popupTimePicker(View view){
 
-        mPopupWindow = new PopupWindow(EditActivity.this);
-
+    public void alertDatePicker(View view){
         // レイアウト設定
-        View popupView = getLayoutInflater().inflate(R.layout.popup_timepicker, null);
-        popupView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPopupWindow.isShowing()) {
-                    mPopupWindow.dismiss();
-                }
+        View datePickerView = getLayoutInflater().inflate(R.layout.dialog_datepicker, null);
+        alertDialog.setTitle("日付を入力してください");      //タイトル設定
+        alertDialog.setView(datePickerView);
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("AlertDialog", "Positive which :" + which);
             }
         });
-        mPopupWindow.setContentView(popupView);
-        mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.showAtLocation(findViewById(R.id.close_button), Gravity.CENTER, 0, 0);
+        alertDialog.setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("AlertDialog", "Negative which :" + which);
+            }
+        });
+        alertDialog.show();
+    }
 
+    public void alertTimePicker(View view){
+        // レイアウト設定
+        View datePickerView = getLayoutInflater().inflate(R.layout.dialog_timepicker, null);
+        alertDialog.setTitle("時刻を入力してください");
+        alertDialog.setView(datePickerView);
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("AlertDialog", "Positive which :" + which);
+            }
+        });
+        alertDialog.setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("AlertDialog", "Negative which :" + which);
+            }
+        });
+        alertDialog.show();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
