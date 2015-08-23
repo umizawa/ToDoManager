@@ -63,12 +63,12 @@ public class MainActivity extends ActionBarActivity { //ツールバー
                 toast("settings");
                 break;
             case R.id.menu1:                // メニュー１選択時の処理
-                toast("menu1");
+                toast("項目を追加します");
                 Intent intent = new Intent(this,EditActivity.class);
                 startActivity(intent);
                 break;
             case R.id.menu2:                // メニュー2選択時の処理
-                toast("menu2");
+                toast("検索");
                 break;
             default:
                 break;

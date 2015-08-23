@@ -11,8 +11,9 @@ public class ToDoData extends RealmObject{
     private int imageResourceId;
     private int importance;
     private boolean repeatFlag;
-    private Date editDay;
-    private Date dueDay;
+    private Date editedDate;
+    private Date dueDate;
+    private Date reminderDate;
     private boolean finishFlag;
 
     public String getTitle(){return title;}
@@ -27,10 +28,12 @@ public class ToDoData extends RealmObject{
     public void setImportance(int importance){this.importance = importance;}
     public boolean getRepeatFlag(){return repeatFlag;}
     public void setRepeatFlag(boolean repeatFlag){this.repeatFlag = repeatFlag;}
-    public Date getEditDay(){return editDay;}
-    public void setEditDay(Date editDay){this.editDay = editDay;}
-    public Date getDueDay(){return dueDay;}
-    public void setDueDay(Date dueDay){this.dueDay = dueDay;}
+    public Date getEditedDate(){return editedDate;}
+    public void setEditedDate(Date editedDate){this.editedDate = editedDate;}
+    public Date getDueDate(){return dueDate;}
+    public void setDueDate(Date dueDate){this.dueDate = dueDate;}
+    public Date getReminderDate(){return reminderDate;}
+    public void setReminderDate(Date reminderDate){this.reminderDate = reminderDate;}
     public boolean getFinishFlag(){return finishFlag;}
     public void setFinishFlag(boolean finishFlag){this.finishFlag = finishFlag;}
 }
