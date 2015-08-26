@@ -23,6 +23,7 @@ import io.realm.Realm;
 
 public class EditActivity extends ActionBarActivity implements OnClickListener {
     private EditText title;
+    private EditText place;
     private Spinner importance;
     private Spinner group;
     private Realm realm;
@@ -83,18 +84,26 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
     }
 
     public void registerToDoData(){
+        realm = Realm.getInstance(this,"test.realm");
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ToDoData toDoData = realm.createObject(ToDoData.class); // Create a new object
 
-        realm = Realm.getInstance(this);
-        realm.beginTransaction();
-        ToDoData toDoData = realm.createObject(ToDoData.class); // Create a new object
+                toDoData.setEditedDate(Calendar.getInstance().getTime());
+                toDoData.setDueDate(dueDate.getTime());
+                toDoData.setReminderDate(reminderDate.getTime());
 
-        toDoData.setEditedDate(Calendar.getInstance().getTime());
-        toDoData.setDueDate(dueDate.getTime());
-        toDoData.setReminderDate(reminderDate.getTime());
-        title = (EditText)findViewById(R.id.name);
-        toDoData.setTitle(title.toString());
+                title = (EditText) findViewById(R.id.name);
+                toDoData.setTitle(title.toString());
+                place = (EditText) findViewById(R.id.place);
+                toDoData.setPlace(place.toString());
+
+            }
+        });
 
         realm.commitTransaction();
+
     }
     public void setClickListenerOnTextViews(){
         due_day_picker_text = (TextView)findViewById(R.id.due_day_picker_text);
