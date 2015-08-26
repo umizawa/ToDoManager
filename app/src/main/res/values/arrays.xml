@@ -5,4 +5,8 @@
         <item>中</item>
         <item>高</item>
     </string-array>
+    <string-array name="repeat_values">
+        <item>する</item>
+        <item>しない</item>
+    </string-array>
 </resources>

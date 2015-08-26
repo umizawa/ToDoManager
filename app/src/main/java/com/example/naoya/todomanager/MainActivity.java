@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -14,9 +15,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
 
 public class MainActivity extends ActionBarActivity { //ツールバー
-    
     @Override                                                                                       //アクティビティ起動時に呼び出し
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,11 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         Calendar nowCalendar = Calendar.getInstance();
+
+        Realm realm = Realm.getInstance(this,"test.realm");
+        RealmQuery<ToDoData> query = realm.where(ToDoData.class);
+        RealmResults<ToDoData> result1 = query.findAll();
+
 
         //～仮初めのリスト共～
         CellData cellData1 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト1");

@@ -136,7 +136,7 @@
                 android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/importance_values"/>
+                android:entries="@array/repeat_values"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
