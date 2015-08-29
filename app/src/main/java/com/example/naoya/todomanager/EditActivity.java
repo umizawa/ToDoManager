@@ -24,8 +24,10 @@ import io.realm.Realm;
 public class EditActivity extends ActionBarActivity implements OnClickListener {
     private EditText title;
     private EditText place;
+    private EditText comment;
     private Spinner importance;
     private Spinner group;
+    private Spinner repeat;
     private Realm realm;
     TextView due_day_picker_text;
     TextView due_time_picker_text;
@@ -93,11 +95,34 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
                 toDoData.setEditedDate(Calendar.getInstance().getTime());
                 toDoData.setDueDate(dueDate.getTime());
                 toDoData.setReminderDate(reminderDate.getTime());
+                importance = (Spinner) findViewById(R.id.spinner_importance);
+                switch (importance.toString()){
+                    case "低":
+                        toDoData.setImportance(0);
+                        break;
+                    case "中":
+                        toDoData.setImportance(1);
+                        break;
+                    case "高":
+                        toDoData.setImportance(2);
+                        break;
+                    default:
+                        break;
+                }
+                repeat = (Spinner) findViewById(R.id.spinner_repeat);
+                if(repeat.toString().equals("する")){
+                    toDoData.setRepeatFlag(true);
+                }
+                else{
+                    toDoData.setRepeatFlag(false);
+                }
 
                 title = (EditText) findViewById(R.id.name);
                 toDoData.setTitle(title.toString());
                 place = (EditText) findViewById(R.id.place);
                 toDoData.setPlace(place.toString());
+                comment = (EditText) findViewById(R.id.comment);
+                toDoData.setComment(comment.toString());
 
             }
         });

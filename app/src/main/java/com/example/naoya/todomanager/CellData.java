@@ -6,11 +6,9 @@ import java.util.Date;
 public class CellData {
 
     private int imageResourceId;
-//    private int importance;
-    private Date  dueDay;//,editDay;
-    private String title;//,message;
+    private Date  dueDay;
+    private String title;
 
-//    public CellData(int imageResourceId, int importance, Date editDay, Date dueDay, String title, String message){
     public CellData(int imageResourceId, Date dueDay, String title){
         this.imageResourceId = imageResourceId;
         this.dueDay = dueDay;

@@ -1,11 +1,9 @@
 package com.example.naoya.todomanager;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -21,38 +19,41 @@ import io.realm.RealmResults;
 
 
 public class MainActivity extends ActionBarActivity { //ツールバー
+
+    Realm realm;
+    RealmQuery<ToDoData> query;
+    RealmResults<ToDoData> result;
+    List<CellData> cellDataList;
+    CellAdapter cellAdapter;
+    ListView listView;
+    Calendar nowCalendar = Calendar.getInstance();
+
     @Override                                                                                       //アクティビティ起動時に呼び出し
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        Calendar nowCalendar = Calendar.getInstance();
 
-        Realm realm = Realm.getInstance(this,"test.realm");
-        RealmQuery<ToDoData> query = realm.where(ToDoData.class);
-        RealmResults<ToDoData> result1 = query.findAll();
-
-
-        //～仮初めのリスト共～
-        CellData cellData1 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト1");
-        CellData cellData2 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト2");
-        CellData cellData3 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト3");
-        CellData cellData4 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト4");
-        CellData cellData5 = new CellData(R.mipmap.ic_launcher,nowCalendar.getTime(),"テスト5");
-        List<CellData> cellDataList = new ArrayList<>();
-        cellDataList.add(cellData1);
-        cellDataList.add(cellData2);
-        cellDataList.add(cellData3);
-        cellDataList.add(cellData4);
-        cellDataList.add(cellData5);
-
-        CellAdapter cellAdapter = new CellAdapter(this,cellDataList);
-
-        ListView listView= (ListView) findViewById(R.id.list_view);
+        realm = Realm.getInstance(this, "test.realm");
+        query = realm.where(ToDoData.class);
+        result = query.findAll();
+        cellDataList = new ArrayList<>();
+        setRealmToCellDataList();
+        cellAdapter = new CellAdapter(this,cellDataList);
+        listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(cellAdapter);
-    }
 
+        toast(result.size() + "個の項目があります。");
+
+    }
+    public void setRealmToCellDataList(){
+        for (ToDoData toDoData : result) {
+            CellData cellData = new CellData(R.mipmap.ic_launcher, toDoData.getDueDate(), toDoData.getTitle());
+            cellDataList.add(cellData);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -75,6 +76,7 @@ public class MainActivity extends ActionBarActivity { //ツールバー
                 toast("項目を追加します");
                 Intent intent = new Intent(this,EditActivity.class);
                 startActivity(intent);
+                //toast(result.size() + "個の項目があります。");
                 break;
             case R.id.menu2:                // メニュー2選択時の処理
                 toast("検索");
