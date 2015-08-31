@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity { //ツールバー
     }
 
     public void setListView(){
-        query = realm.where(ToDoData.class).equalTo("finishFlag",false);
+        query = realm.where(ToDoData.class).equalTo("finishFlag", false);
         result = query.findAll();
         cellDataList = new ArrayList<>();
         setRealmToCellDataList();
@@ -61,13 +61,6 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         listView.setAdapter(cellAdapter);
         alertDialog = new AlertDialog.Builder(this);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "clicked",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -86,11 +79,14 @@ public class MainActivity extends ActionBarActivity { //ツールバー
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                realm.beginTransaction();
                 result.remove(id);
+                realm.commitTransaction();
+                setListView();
                 toast("削除しました");
             }
         });
-        alertDialog.setNegativeButton("NG", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
@@ -111,6 +107,11 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setListView();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,8 +127,7 @@ public class MainActivity extends ActionBarActivity { //ツールバー
                 toast("項目を追加します");
                 Intent intent = new Intent(this,EditActivity.class);
                 startActivity(intent);
-//                setListView();
-//                toast(result.size() + "個の項目があります。");
+                toast(result.size() + "個の項目があります。");
                 break;
             case R.id.menu2:                // メニュー2選択時の処理
                 toast("検索");
