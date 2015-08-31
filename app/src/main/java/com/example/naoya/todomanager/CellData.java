@@ -1,28 +1,21 @@
 package com.example.naoya.todomanager;
 
-import java.lang.ref.SoftReference;
 import java.util.Date;
 
 public class CellData {
 
     private int imageResourceId;
     private Date  dueDay;
-    private String title;
+    private String cellTitle;
 
-    public CellData(int imageResourceId, Date dueDay, String title){
+    public CellData(int imageResourceId, Date dueDay, String cellTitle){
         this.imageResourceId = imageResourceId;
         this.dueDay = dueDay;
-        this.title = title;
-//        this.importance = importance;
-//        this.editDay = editDay;
-//        this.message = message;
+        this.cellTitle = cellTitle;
     }
 
-    public int getImageResourceId() {return imageResourceId;}
-    public Date getDueDay() {return dueDay;}
-    public String getTitle() {return title;}
-//    public int getImportance() {return importance;}
-//    public Date getEditDay() {return editDay;}
-//    public String getMessage() {return message;}
+    public int getCellImageResourceId() {return imageResourceId;}
+    public Date getCellDueDay() {return dueDay;}
+    public String getCellTitle() {return cellTitle;}
 
 }

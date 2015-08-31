@@ -1,11 +1,15 @@
 package com.example.naoya.todomanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,27 +31,73 @@ public class MainActivity extends ActionBarActivity { //ツールバー
     CellAdapter cellAdapter;
     ListView listView;
     Calendar nowCalendar = Calendar.getInstance();
+    AlertDialog.Builder alertDialog;
 
     @Override                                                                                       //アクティビティ起動時に呼び出し
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         realm = Realm.getInstance(this, "test.realm");
-        query = realm.where(ToDoData.class);
-        result = query.findAll();
-        cellDataList = new ArrayList<>();
-        setRealmToCellDataList();
-        cellAdapter = new CellAdapter(this,cellDataList);
-        listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(cellAdapter);
-
+        setListView();
         toast(result.size() + "個の項目があります。");
 
     }
+
+    public void setListView(){
+        query = realm.where(ToDoData.class).equalTo("finishFlag",false);
+        result = query.findAll();
+        cellDataList = new ArrayList<>();
+        setRealmToCellDataList();
+
+        cellAdapter = new CellAdapter(this,cellDataList);
+
+        listView = (ListView) findViewById(R.id.list_view);
+        listView.setAdapter(cellAdapter);
+        alertDialog = new AlertDialog.Builder(this);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "clicked",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                initDeleteDialog(position);
+                alertDialog.show();
+                return false;
+            }
+        });
+    }
+
+    public void initDeleteDialog(final int id){
+
+        alertDialog.setTitle("削除");
+        alertDialog.setMessage(result.get(id).getTitle() + "を削除しますか？");
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                result.remove(id);
+                toast("削除しました");
+            }
+        });
+        alertDialog.setNegativeButton("NG", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+    }
+
+
     public void setRealmToCellDataList(){
         for (ToDoData toDoData : result) {
             CellData cellData = new CellData(R.mipmap.ic_launcher, toDoData.getDueDate(), toDoData.getTitle());
@@ -76,7 +126,8 @@ public class MainActivity extends ActionBarActivity { //ツールバー
                 toast("項目を追加します");
                 Intent intent = new Intent(this,EditActivity.class);
                 startActivity(intent);
-                //toast(result.size() + "個の項目があります。");
+//                setListView();
+//                toast(result.size() + "個の項目があります。");
                 break;
             case R.id.menu2:                // メニュー2選択時の処理
                 toast("検索");

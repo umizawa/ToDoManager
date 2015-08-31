@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="名前を入力してください"/>
+                android:hint="名前を入力してください"/>
             <TextView
                 android:id="@+id/label_due_day"
                 android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="場所を入力してください"/>
+                android:hint="場所を入力してください"/>
             <TextView
                 android:id="@+id/label_importance"
                 android:layout_width="wrap_content"

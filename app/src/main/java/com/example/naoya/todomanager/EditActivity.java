@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -29,6 +30,7 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
     private Spinner group;
     private Spinner repeat;
     private Realm realm;
+    ToDoData toDoData;
     TextView due_day_picker_text;
     TextView due_time_picker_text;
     TextView reminder_day_picker_text;
@@ -80,7 +82,6 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
@@ -90,12 +91,11 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                ToDoData toDoData = realm.createObject(ToDoData.class); // Create a new object
-
+                toDoData = realm.createObject(ToDoData.class);
                 toDoData.setEditedDate(Calendar.getInstance().getTime());
                 toDoData.setDueDate(dueDate.getTime());
                 toDoData.setReminderDate(reminderDate.getTime());
-                importance = (Spinner) findViewById(R.id.spinner_importance);
+                importance = (Spinner)findViewById(R.id.spinner_importance);
                 switch (importance.toString()){
                     case "低":
                         toDoData.setImportance(0);
@@ -109,7 +109,7 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
                     default:
                         break;
                 }
-                repeat = (Spinner) findViewById(R.id.spinner_repeat);
+                repeat = (Spinner)findViewById(R.id.spinner_repeat);
                 if(repeat.toString().equals("する")){
                     toDoData.setRepeatFlag(true);
                 }
@@ -117,12 +117,14 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
                     toDoData.setRepeatFlag(false);
                 }
 
-                title = (EditText) findViewById(R.id.name);
-                toDoData.setTitle(title.toString());
-                place = (EditText) findViewById(R.id.place);
-                toDoData.setPlace(place.toString());
+                title = (EditText)findViewById(R.id.name);
+                toDoData.setTitle(title.getText().toString());
+                Log.d("MyApp", title.toString());
+                place = (EditText)findViewById(R.id.place);
+                toDoData.setPlace(place.getText().toString());
                 comment = (EditText) findViewById(R.id.comment);
-                toDoData.setComment(comment.toString());
+                toDoData.setComment(comment.getText().toString());
+                toDoData.setFinishFlag(false);
 
             }
         });
