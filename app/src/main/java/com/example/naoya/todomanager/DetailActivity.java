@@ -2,19 +2,52 @@ package com.example.naoya.todomanager;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class DetailActivity extends ActionBarActivity {
 
+    ToDoData toDoData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-    }
+        Log.d("myApp", "setContentView");
+        toDoData = (ToDoData)getIntent().getSerializableExtra("detail");
+        Log.d("myApp", "setSerializableExtra");
+        initDetailActivity();
 
+    }
+    public void initDetailActivity(){
+        TextView textView = (TextView)findViewById(R.id.title);
+        textView.setText(toDoData.getTitle());
+        textView = (TextView)findViewById(R.id.due_day);
+        textView.setText(toDoData.getDueDate().toString());
+        textView = (TextView)findViewById(R.id.edited_day);
+        textView.setText(toDoData.getEditedDate().toString());
+        setImportanceOnDetailView();
+    }
+    public void setImportanceOnDetailView(){
+        TextView textView = (TextView)findViewById(R.id.importancee);
+        switch (toDoData.getImportance()){
+            case 0:
+                textView.setText("低");
+                break;
+            case 1:
+                textView.setText("中");
+                break;
+            case 2:
+                textView.setText("高");
+                break;
+            default:
+                break;
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -30,26 +63,6 @@ public class DetailActivity extends ActionBarActivity {
         item.getItemId();
         switch (item.getItemId()) {
             case R.id.action_settings:                // 設定選択時の処理
-                toast("settings");
-                break;
-            case R.id.menu1:                // メニュー１選択時の処理
-                toast("menu1");
-                break;
-            case R.id.menu2:                // メニュー2選択時の処理
-                toast("menu2");
-                break;
-            case R.id.menu3:                // メニュー3選択時の処理
-                toast("menu3");
-                break;
-            case R.id.menu4:                // メニュー4選択時の処理
-                toast("menu4");
-                break;
-            case R.id.menu5:                // メニュー5選択時の処理
-                toast("menu5");
-                break;
-            case R.id.menu6:                // メニュー6選択時の処理
-                toast("menu6");
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -21,6 +21,14 @@
             android:label="@string/title_activity_list_view" >
         </activity>
         <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.naoya.todomanager.MainActivity"
+                />
+        </activity>
+        <activity
             android:name=".EditActivity"
             android:label="@string/title_activity_edit" >
             <meta-data

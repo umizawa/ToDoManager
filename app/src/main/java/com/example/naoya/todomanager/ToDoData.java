@@ -1,10 +1,11 @@
 package com.example.naoya.todomanager;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
 
-public class ToDoData extends RealmObject{
+public class ToDoData extends RealmObject implements Serializable{
     private String title;
     private String place;
     private String comment;

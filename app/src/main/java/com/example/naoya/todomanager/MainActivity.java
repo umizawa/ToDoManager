@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +62,15 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         listView.setAdapter(cellAdapter);
         alertDialog = new AlertDialog.Builder(this);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
+                ToDoData detail = result.get(position);
+                intent.putExtra("detail",detail);
+                startActivity(intent);
+            }
+        });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -111,6 +121,7 @@ public class MainActivity extends ActionBarActivity { //ツールバー
     protected void onResume(){
         super.onResume();
         setListView();
+        toast(result.size() + "個の項目があります。");
     }
 
     @Override
@@ -125,9 +136,8 @@ public class MainActivity extends ActionBarActivity { //ツールバー
                 break;
             case R.id.menu1:                // メニュー１選択時の処理
                 toast("項目を追加します");
-                Intent intent = new Intent(this,EditActivity.class);
+                Intent intent = new Intent(this, EditActivity.class);
                 startActivity(intent);
-                toast(result.size() + "個の項目があります。");
                 break;
             case R.id.menu2:                // メニュー2選択時の処理
                 toast("検索");
