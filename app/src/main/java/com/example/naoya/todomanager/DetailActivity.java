@@ -2,39 +2,52 @@ package com.example.naoya.todomanager;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+
 
 public class DetailActivity extends ActionBarActivity {
 
-    ToDoData toDoData;
+    ToDoDataAdaptor toDoDataAdaptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detail);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Log.d("myApp", "setContentView");
-        toDoData = (ToDoData)getIntent().getSerializableExtra("detail");
+        toDoDataAdaptor = (ToDoDataAdaptor)getIntent().getSerializableExtra("toDoDataAdaptor");
         Log.d("myApp", "setSerializableExtra");
         initDetailActivity();
 
     }
     public void initDetailActivity(){
         TextView textView = (TextView)findViewById(R.id.title);
-        textView.setText(toDoData.getTitle());
+        textView.setText(toDoDataAdaptor.getTitle());
+        textView = (TextView)findViewById(R.id.comment);
+        textView.setText(toDoDataAdaptor.getComment());
         textView = (TextView)findViewById(R.id.due_day);
-        textView.setText(toDoData.getDueDate().toString());
+        textView.setText(toDoDataAdaptor.getDueDate().toString());
         textView = (TextView)findViewById(R.id.edited_day);
-        textView.setText(toDoData.getEditedDate().toString());
+        textView.setText(toDoDataAdaptor.getEditedDate().toString());
+        textView = (TextView)findViewById(R.id.remainder_day);
+        textView.setText(toDoDataAdaptor.getReminderDate().toString());
         setImportanceOnDetailView();
+        setRepeatFlagOnDetailView();
     }
     public void setImportanceOnDetailView(){
         TextView textView = (TextView)findViewById(R.id.importancee);
-        switch (toDoData.getImportance()){
+        switch (toDoDataAdaptor.getImportance()){
             case 0:
                 textView.setText("低");
                 break;
@@ -46,6 +59,15 @@ public class DetailActivity extends ActionBarActivity {
                 break;
             default:
                 break;
+        }
+    }
+    public void setRepeatFlagOnDetailView(){
+        TextView textView = (TextView)findViewById(R.id.repeat);
+        if (toDoDataAdaptor.getRepeatFlag()){
+            textView.setText("する");
+        }
+        else {
+            textView.setText("しない");
         }
     }
     @Override

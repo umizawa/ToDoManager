@@ -66,8 +66,9 @@ public class MainActivity extends ActionBarActivity { //ツールバー
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
-                ToDoData detail = result.get(position);
-                intent.putExtra("detail",detail);
+                ToDoDataAdaptor toDoDataAdaptor = new ToDoDataAdaptor();
+                toDoDataAdaptor.ToDoDataAdaptor(result.get(position));
+                intent.putExtra("toDoDataAdaptor",toDoDataAdaptor);
                 startActivity(intent);
             }
         });
