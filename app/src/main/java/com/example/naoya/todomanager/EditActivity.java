@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import io.realm.Realm;
 
@@ -49,10 +48,12 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setNowDateOnTextView(R.id.due_day_picker_text);
         setNowDateOnTextView(R.id.reminder_day_picker_text);
         setNowTimeOnTextView(R.id.due_time_picker_text);

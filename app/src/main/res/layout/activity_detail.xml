@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.naoya.todo.DetailActivity">
+    tools:context=".DetailActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
+        android:id="@+id/tool_bar_detail"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tool_bar">
+        android:layout_below="@id/tool_bar_detail">
         <ImageView
             android:id="@+id/image"
             android:layout_width="wrap_content"
@@ -32,115 +32,126 @@
             android:layout_gravity="center_horizontal"
             android:textSize="30sp"
             android:text="タイトル"/>
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/label_importance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="重要度:"/>
-        <TextView
-            android:id="@+id/importancee"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="LorMorH"/>
-        <TextView
-            android:id="@+id/label_due_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="期限:"/>
-        <TextView
-            android:id="@+id/due_day"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="YYYY/DD/MM HH:MM"/>
-        <TextView
-            android:id="@+id/label_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="コメント:"/>
-        <TextView
-            android:id="@+id/comment"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="COMMENT"/>
-        <TextView
-            android:id="@+id/label_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="グループ:"/>
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="GROUP"/>
-        <TextView
-            android:id="@+id/label_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="タグ:"/>
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="TAG"/>
-        <TextView
-            android:id="@+id/label_reminder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="リマインダー:"/>
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/remainder_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="YYYY/MM/DD HH:MM"/>
-        <TextView
-            android:id="@+id/label_repeat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="繰り返し:"/>
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/repeat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="REPEAT"/>
-        <TextView
-            android:id="@+id/label_edited_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="作成日:"/>
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/edited_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="YYYY/MM/DD HH:MM"/>
-    </LinearLayout>
+</RelativeLayout>
+    <ScrollView
+        android:id="@+id/ScrollView"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
+        <LinearLayout
+            android:id="@+id/LinearLayout"
+            android:orientation="vertical"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/label_importance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="重要度:"/>
+                <TextView
+                    android:id="@+id/importancee"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="LorMorH"/>
+                <TextView
+                    android:id="@+id/label_due_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="期限:"/>
+                <TextView
+                    android:id="@+id/due_day"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="YYYY/DD/MM HH:MM"/>
+                <TextView
+                    android:id="@+id/label_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="コメント:"/>
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="COMMENT"/>
+                <TextView
+                    android:id="@+id/label_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="グループ:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="GROUP"/>
+                <TextView
+                    android:id="@+id/label_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="タグ:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="TAG"/>
+                <TextView
+                    android:id="@+id/label_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="リマインダー:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/remainder_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="YYYY/MM/DD HH:MM"/>
+                <TextView
+                    android:id="@+id/label_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="繰り返し:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="REPEAT"/>
+                <TextView
+                    android:id="@+id/label_edited_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="作成日:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/edited_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="YYYY/MM/DD HH:MM"/>
+           </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

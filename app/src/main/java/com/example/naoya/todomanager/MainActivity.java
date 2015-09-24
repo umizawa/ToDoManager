@@ -2,11 +2,12 @@ package com.example.naoya.todomanager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,23 +24,27 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 
-public class MainActivity extends ActionBarActivity { //ツールバー
+public class MainActivity extends ActionBarActivity  { //ツールバー
 
-    Realm realm;
-    RealmQuery<ToDoData> query;
-    RealmResults<ToDoData> result;
+    static Realm realm;
+    static RealmQuery<ToDoData> query;
+    static RealmResults<ToDoData> result;
     List<CellData> cellDataList;
     CellAdapter cellAdapter;
     ListView listView;
     Calendar nowCalendar = Calendar.getInstance();
     AlertDialog.Builder alertDialog;
+    private final MainActivity self = this;
+    private SearchView searchView;
+    private String searchWord;
+
 
     @Override                                                                                       //アクティビティ起動時に呼び出し
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_main);
         setSupportActionBar(toolbar);
 
         realm = Realm.getInstance(this, "test.realm");
@@ -63,10 +68,10 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 ToDoDataAdaptor toDoDataAdaptor = new ToDoDataAdaptor();
                 toDoDataAdaptor.ToDoDataAdaptor(result.get(position));
-                intent.putExtra("toDoDataAdaptor",toDoDataAdaptor);
+                intent.putExtra("toDoDataAdaptor", toDoDataAdaptor);
                 startActivity(intent);
             }
         });
@@ -76,7 +81,7 @@ public class MainActivity extends ActionBarActivity { //ツールバー
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 initDeleteDialog(position);
                 alertDialog.show();
-                return false;
+                return true;
             }
         });
     }
@@ -102,7 +107,6 @@ public class MainActivity extends ActionBarActivity { //ツールバー
 
     }
 
-
     public void setRealmToCellDataList(){
         for (ToDoData toDoData : result) {
             CellData cellData = new CellData(R.mipmap.ic_launcher, toDoData.getDueDate(), toDoData.getTitle());
@@ -114,6 +118,9 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        MenuItem searchItem = menu.findItem(R.id.searchView);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         return true;
     }
     @Override
@@ -152,4 +159,29 @@ public class MainActivity extends ActionBarActivity { //ツールバー
         Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
     }
 
+    private SearchView.OnQueryTextListener onQueryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String searchWord) {
+            // SubmitボタンorEnterKeyを押されたら呼び出されるメソッド
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            if (newText == null){
+                query = realm.where(ToDoData.class).equalTo("finishFlag", false);
+                setRealmToCellDataList();
+                listView = (ListView) findViewById(R.id.list_view);
+                listView.setAdapter(cellAdapter);
+            }
+            else {
+                query = realm.where(ToDoData.class).contains("title",newText);
+                result = query.findAll();
+                setRealmToCellDataList();
+                listView = (ListView) findViewById(R.id.list_view);
+                listView.setAdapter(cellAdapter);
+            }
+            return false;
+        }
+    };
 }

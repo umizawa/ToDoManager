@@ -9,39 +9,58 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 
 public class DetailActivity extends ActionBarActivity {
-
+    RealmResults<ToDoData> result;
+    int position = getIntent().getIntExtra("position",0);
     ToDoDataAdaptor toDoDataAdaptor;
+    ToDoData toDoData = result.get(position);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Log.d("myApp", "setContentView");
         toDoDataAdaptor = (ToDoDataAdaptor)getIntent().getSerializableExtra("toDoDataAdaptor");
-        Log.d("myApp", "setSerializableExtra");
-        initDetailActivity();
+        Log.d("myApp", "setSerializableExtra//");
+        //initDetailActivity();
+        initDetailActivityProto();
 
     }
-    public void initDetailActivity(){
-        TextView textView = (TextView)findViewById(R.id.title);
+    public void initDetailActivity() {
+        TextView textView = (TextView) findViewById(R.id.title);
         textView.setText(toDoDataAdaptor.getTitle());
-        textView = (TextView)findViewById(R.id.comment);
+        textView = (TextView) findViewById(R.id.comment);
         textView.setText(toDoDataAdaptor.getComment());
-        textView = (TextView)findViewById(R.id.due_day);
+        textView = (TextView) findViewById(R.id.due_day);
         textView.setText(toDoDataAdaptor.getDueDate().toString());
-        textView = (TextView)findViewById(R.id.edited_day);
+        textView = (TextView) findViewById(R.id.edited_day);
         textView.setText(toDoDataAdaptor.getEditedDate().toString());
-        textView = (TextView)findViewById(R.id.remainder_day);
+        textView = (TextView) findViewById(R.id.remainder_day);
         textView.setText(toDoDataAdaptor.getReminderDate().toString());
+        setImportanceOnDetailView();
+        setRepeatFlagOnDetailView();
+    }
+    public void initDetailActivityProto(){
+        TextView textView = (TextView)findViewById(R.id.title);
+        textView.setText(toDoData.getTitle());
+        textView = (TextView)findViewById(R.id.comment);
+        textView.setText(toDoData.getComment());
+        textView = (TextView)findViewById(R.id.due_day);
+        textView.setText(toDoData.getDueDate().toString());
+        textView = (TextView)findViewById(R.id.edited_day);
+        textView.setText(toDoData.getEditedDate().toString());
+        textView = (TextView)findViewById(R.id.remainder_day);
+        textView.setText(toDoData.getReminderDate().toString());
         setImportanceOnDetailView();
         setRepeatFlagOnDetailView();
     }
@@ -73,7 +92,7 @@ public class DetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
 
