@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
     }
 
     public void setListView(){
-        query = realm.where(ToDoData.class).equalTo("finishFlag", false);
+        query = realm.where(ToDoData.class);
         result = query.findAll();
         cellDataList = new ArrayList<>();
         setRealmToCellDataList();
@@ -72,6 +72,7 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
                 ToDoDataAdaptor toDoDataAdaptor = new ToDoDataAdaptor();
                 toDoDataAdaptor.ToDoDataAdaptor(result.get(position));
                 intent.putExtra("toDoDataAdaptor", toDoDataAdaptor);
+                intent.putExtra("position",position);
                 startActivity(intent);
             }
         });

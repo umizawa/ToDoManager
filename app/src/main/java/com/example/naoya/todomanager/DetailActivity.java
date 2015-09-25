@@ -1,5 +1,6 @@
 package com.example.naoya.todomanager;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,14 +16,25 @@ import io.realm.RealmResults;
 
 
 public class DetailActivity extends ActionBarActivity {
+    Realm realm;
     RealmResults<ToDoData> result;
-    int position = getIntent().getIntExtra("position",0);
+    RealmQuery<ToDoData> query;
+    Intent intent;
+    int position;
     ToDoDataAdaptor toDoDataAdaptor;
-    ToDoData toDoData = result.get(position);
+    ToDoData toDoData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        intent = getIntent();
+        position = intent.getIntExtra("position", 0);
+
+        realm = Realm.getInstance(this, "test.realm");
+        query = realm.where(ToDoData.class);
+        result = query.findAll();
+        toDoData = result.get(position);
 
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_detail);
