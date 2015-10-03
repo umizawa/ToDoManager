@@ -32,11 +32,8 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
     List<CellData> cellDataList;
     CellAdapter cellAdapter;
     ListView listView;
-    Calendar nowCalendar = Calendar.getInstance();
     AlertDialog.Builder alertDialog;
-    private final MainActivity self = this;
     private SearchView searchView;
-    private String searchWord;
 
 
     @Override                                                                                       //アクティビティ起動時に呼び出し
@@ -110,7 +107,7 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
 
     public void setRealmToCellDataList(){
         for (ToDoData toDoData : result) {
-            CellData cellData = new CellData(R.mipmap.ic_launcher, toDoData.getDueDate(), toDoData.getTitle());
+            CellData cellData = new CellData(toDoData.getIndex(),toDoData.getImageResourceId(), toDoData.getDueDate(), toDoData.getTitle());
             cellDataList.add(cellData);
         }
     }

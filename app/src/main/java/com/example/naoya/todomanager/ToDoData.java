@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class ToDoData extends RealmObject implements Serializable{
+public class ToDoData extends RealmObject {
+    @PrimaryKey
+    private int index;
+
     private String title;
     private String place;
     private String comment;
@@ -17,6 +21,8 @@ public class ToDoData extends RealmObject implements Serializable{
     private Date reminderDate;
     private boolean finishFlag;
 
+    public int getIndex(){return index;}
+    public void setIndex(int index){this.index = index;}
     public String getTitle(){return title;}
     public void setTitle(String title){this.title = title;}
     public String getPlace(){return place;}
