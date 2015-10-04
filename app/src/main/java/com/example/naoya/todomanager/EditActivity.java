@@ -2,10 +2,9 @@ package com.example.naoya.todomanager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -18,24 +17,18 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import io.realm.Realm;
-
-
-public class EditActivity extends ActionBarActivity implements OnClickListener {
-    private EditText title;
-    private EditText place;
-    private EditText comment;
-    private Spinner importance;
-    private Spinner group;
-    private Spinner repeat;
-    private Realm realm;
-    ToDoData toDoData;
+public class EditActivity extends AppCompatActivity implements OnClickListener {
+    static EditText title;
+    static EditText place;
+    static EditText comment;
+    static Spinner importanceSpinner;
+    static Spinner repeatSpinner;
     TextView due_day_picker_text;
     TextView due_time_picker_text;
     TextView reminder_day_picker_text;
     TextView reminder_time_picker_text;
-    private DatePickerDialog datePickerDialog;
-    private TimePickerDialog timePickerDialog;
+    static DatePickerDialog datePickerDialog;
+    static TimePickerDialog timePickerDialog;
     final Calendar calendar = Calendar.getInstance();
     final Calendar dueDate = Calendar.getInstance();
     final Calendar reminderDate = Calendar.getInstance();
@@ -45,9 +38,13 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
     final int hour = calendar.get(Calendar.HOUR_OF_DAY);
     final int minute = calendar.get(Calendar.MINUTE);
 
+    RealmData realmData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        realmData = new RealmData(this,"test.realm");
 
         setContentView(R.layout.activity_edit);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
@@ -88,50 +85,36 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
     }
 
     public void registerToDoData(){
-        realm = Realm.getInstance(this,"test.realm");
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                toDoData = realm.createObject(ToDoData.class);
-                toDoData.setEditedDate(Calendar.getInstance().getTime());
-                toDoData.setDueDate(dueDate.getTime());
-                toDoData.setReminderDate(reminderDate.getTime());
-                importance = (Spinner)findViewById(R.id.spinner_importance);
-                switch (importance.toString()){
-                    case "低":
-                        toDoData.setImportance(0);
-                        break;
-                    case "中":
-                        toDoData.setImportance(1);
-                        break;
-                    case "高":
-                        toDoData.setImportance(2);
-                        break;
-                    default:
-                        break;
-                }
-                repeat = (Spinner)findViewById(R.id.spinner_repeat);
-                if(repeat.toString().equals("する")){
-                    toDoData.setRepeatFlag(true);
-                }
-                else{
-                    toDoData.setRepeatFlag(false);
-                }
 
-                title = (EditText)findViewById(R.id.name);
-                toDoData.setTitle(title.getText().toString());
-                Log.d("MyApp", title.toString());
-                place = (EditText)findViewById(R.id.place);
-                toDoData.setPlace(place.getText().toString());
-                comment = (EditText) findViewById(R.id.comment);
-                toDoData.setComment(comment.getText().toString());
-                toDoData.setFinishFlag(false);
+        int importance;
+        int imageResourceId = R.mipmap.ic_launcher;
+        boolean repeatFrag;
 
-            }
-        });
+        importanceSpinner = (Spinner)findViewById(R.id.spinner_importance);
+        switch (importanceSpinner.toString()){
+            case "低":
+                importance = 0;
+                break;
+            case "中":
+                importance = 1;
+                break;
+            case "高":
+                importance = 2;
+                break;
+            default:
+                importance = 0;
+                break;
+        }
+        repeatSpinner = (Spinner)findViewById(R.id.spinner_repeat);
+        repeatFrag = repeatSpinner.toString().equals("する");
 
-        realm.commitTransaction();
+        title = (EditText)findViewById(R.id.name);
+        place = (EditText)findViewById(R.id.place);
+        comment = (EditText) findViewById(R.id.comment);
 
+        realmData.setToDoData(title.getText().toString(), place.getText().toString(),
+                comment.getText().toString(),imageResourceId, importance, dueDate.getTime(),
+                reminderDate.getTime(), repeatFrag, false);
     }
     public void setClickListenerOnTextViews(){
         due_day_picker_text = (TextView)findViewById(R.id.due_day_picker_text);
@@ -206,10 +189,7 @@ public class EditActivity extends ActionBarActivity implements OnClickListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         boolean editFinished = false;
-        //noinspection SimplifiableIfStatement
-        item.getItemId();
         switch (item.getItemId()) {
             case R.id.menu1:                // メニュー１選択時の処理
                 editFinished = true;

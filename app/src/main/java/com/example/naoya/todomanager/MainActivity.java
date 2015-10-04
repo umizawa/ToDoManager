@@ -2,11 +2,9 @@ package com.example.naoya.todomanager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,27 +14,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
+public class MainActivity extends AppCompatActivity {
 
-
-public class MainActivity extends ActionBarActivity  { //ツールバー
-
-    static Realm realm;
-    static RealmQuery<ToDoData> query;
-    static RealmResults<ToDoData> result;
     List<CellData> cellDataList;
     CellAdapter cellAdapter;
     ListView listView;
     AlertDialog.Builder alertDialog;
-    private SearchView searchView;
+
+    static RealmData realmData;
 
 
-    @Override                                                                                       //アクティビティ起動時に呼び出し
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -44,15 +34,14 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_main);
         setSupportActionBar(toolbar);
 
-        realm = Realm.getInstance(this, "test.realm");
+        realmData = new RealmData(this,"test.realm");
+
         setListView();
-        toast(result.size() + "個の項目があります。");
+        toast(realmData.getResultSize() + "個の項目があります。");
 
     }
 
     public void setListView(){
-        query = realm.where(ToDoData.class);
-        result = query.findAll();
         cellDataList = new ArrayList<>();
         setRealmToCellDataList();
 
@@ -67,7 +56,7 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 ToDoDataAdaptor toDoDataAdaptor = new ToDoDataAdaptor();
-                toDoDataAdaptor.ToDoDataAdaptor(result.get(position));
+                toDoDataAdaptor.ToDoDataAdaptor(realmData.getToDoData((int)id));
                 intent.putExtra("toDoDataAdaptor", toDoDataAdaptor);
                 intent.putExtra("position",position);
                 startActivity(intent);
@@ -87,13 +76,11 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
     public void initDeleteDialog(final int id){
 
         alertDialog.setTitle("削除");
-        alertDialog.setMessage(result.get(id).getTitle() + "を削除しますか？");
+        alertDialog.setMessage(realmData.getToDoData(id).getTitle() + "を削除しますか？");
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                realm.beginTransaction();
-                result.remove(id);
-                realm.commitTransaction();
+                realmData.remove(id);
                 setListView();
                 toast("削除しました");
             }
@@ -106,8 +93,10 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
     }
 
     public void setRealmToCellDataList(){
-        for (ToDoData toDoData : result) {
-            CellData cellData = new CellData(toDoData.getIndex(),toDoData.getImageResourceId(), toDoData.getDueDate(), toDoData.getTitle());
+        for (int i = 0; i < realmData.getResultSize(); i++) {
+            ToDoData toDoData = realmData.getToDoData(i);
+            CellData cellData = new CellData(toDoData.getIndex(),toDoData.getImageResourceId(),
+                    toDoData.getDueDate(), toDoData.getTitle());
             cellDataList.add(cellData);
         }
     }
@@ -117,15 +106,13 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         getMenuInflater().inflate(R.menu.menu_search, menu);
-        MenuItem searchItem = menu.findItem(R.id.searchView);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         return true;
     }
     @Override
     protected void onResume(){
         super.onResume();
         setListView();
-        toast(result.size() + "個の項目があります。");
+        toast(realmData.getResultSize() + "個の項目があります。");
     }
 
     @Override
@@ -156,30 +143,4 @@ public class MainActivity extends ActionBarActivity  { //ツールバー
         if(text == null) text = "";
         Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
     }
-
-    private SearchView.OnQueryTextListener onQueryTextListener = new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String searchWord) {
-            // SubmitボタンorEnterKeyを押されたら呼び出されるメソッド
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            if (newText == null){
-                query = realm.where(ToDoData.class).equalTo("finishFlag", false);
-                setRealmToCellDataList();
-                listView = (ListView) findViewById(R.id.list_view);
-                listView.setAdapter(cellAdapter);
-            }
-            else {
-                query = realm.where(ToDoData.class).contains("title",newText);
-                result = query.findAll();
-                setRealmToCellDataList();
-                listView = (ListView) findViewById(R.id.list_view);
-                listView.setAdapter(cellAdapter);
-            }
-            return false;
-        }
-    };
 }
