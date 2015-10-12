@@ -8,16 +8,22 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.exceptions.RealmMigrationNeededException;
 
-public class RealmData {
+public class RealmWrapper {
     private Realm realm;
     private RealmQuery<ToDoData> query;
     static int index = 0;
     private RealmResults<ToDoData> result;
     static ToDoData toDoData;
 
-    public RealmData(Context context, String fileName){
-        realm = Realm.getInstance(context,fileName);
+    public RealmWrapper(Context context, String fileName){
+        try {
+            realm = Realm.getInstance(context,"fileName");
+        } catch (RealmMigrationNeededException r) {
+            Realm.deleteRealmFile(context,"fileName");
+            realm = Realm.getInstance(context,"fileName");
+        }
         query = realm.where(ToDoData.class);
         result = query.findAll();
     }
@@ -37,7 +43,7 @@ public class RealmData {
         realm.beginTransaction();
 
         toDoData = realm.createObject(ToDoData.class);
-        toDoData.setIndex(index);
+        toDoData.setIndex((int)realm.where(ToDoData.class).maximumInt("index") + 1);
         toDoData.setTitle(title);
         toDoData.setPlace(place);
         toDoData.setComment(comment);

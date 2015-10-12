@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     AlertDialog.Builder alertDialog;
 
-    static RealmData realmData;
+    static RealmWrapper realmWrapper;
 
 
     @Override
@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_main);
         setSupportActionBar(toolbar);
 
-        realmData = new RealmData(this,"test.realm");
+        realmWrapper = new RealmWrapper(this,"test.realm");
 
         setListView();
-        toast(realmData.getResultSize() + "個の項目があります。");
+        toast(realmWrapper.getResultSize() + "個の項目があります。");
 
     }
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 ToDoDataAdaptor toDoDataAdaptor = new ToDoDataAdaptor();
-                toDoDataAdaptor.ToDoDataAdaptor(realmData.getToDoData((int)id));
+                toDoDataAdaptor.ToDoDataAdaptor(realmWrapper.getToDoData((int)id));
                 intent.putExtra("toDoDataAdaptor", toDoDataAdaptor);
                 intent.putExtra("position",position);
                 startActivity(intent);
@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
     public void initDeleteDialog(final int id){
 
         alertDialog.setTitle("削除");
-        alertDialog.setMessage(realmData.getToDoData(id).getTitle() + "を削除しますか？");
+        alertDialog.setMessage(realmWrapper.getToDoData(id).getTitle() + "を削除しますか？");
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                realmData.remove(id);
+                realmWrapper.remove(id);
                 setListView();
                 toast("削除しました");
             }
@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setRealmToCellDataList(){
-        for (int i = 0; i < realmData.getResultSize(); i++) {
-            ToDoData toDoData = realmData.getToDoData(i);
+        for (int i = 0; i < realmWrapper.getResultSize(); i++) {
+            ToDoData toDoData = realmWrapper.getToDoData(i);
             CellData cellData = new CellData(toDoData.getIndex(),toDoData.getImageResourceId(),
                     toDoData.getDueDate(), toDoData.getTitle());
             cellDataList.add(cellData);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         setListView();
-        toast(realmData.getResultSize() + "個の項目があります。");
+        toast(realmWrapper.getResultSize() + "個の項目があります。");
     }
 
     @Override

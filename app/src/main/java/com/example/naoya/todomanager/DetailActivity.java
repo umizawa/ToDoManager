@@ -14,6 +14,7 @@ import android.widget.Toast;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.exceptions.RealmMigrationNeededException;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -31,8 +32,12 @@ public class DetailActivity extends AppCompatActivity {
 
         intent = getIntent();
         position = intent.getIntExtra("position", 0);
-
-        realm = Realm.getInstance(this, "test.realm");
+        try {
+            realm = Realm.getInstance(this,"fileName");
+        } catch (RealmMigrationNeededException r) {
+            Realm.deleteRealmFile(this,"fileName");
+            realm = Realm.getInstance(this,"fileName");
+        }
         query = realm.where(ToDoData.class);
         result = query.findAll();
         toDoData = result.get(position);
@@ -105,7 +110,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
 

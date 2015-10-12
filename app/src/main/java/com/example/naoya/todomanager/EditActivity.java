@@ -38,13 +38,13 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     final int hour = calendar.get(Calendar.HOUR_OF_DAY);
     final int minute = calendar.get(Calendar.MINUTE);
 
-    RealmData realmData;
+    RealmWrapper realmWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        realmData = new RealmData(this,"test.realm");
+        realmWrapper = new RealmWrapper(this,"test.realm");
 
         setContentView(R.layout.activity_edit);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
@@ -112,7 +112,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         place = (EditText)findViewById(R.id.place);
         comment = (EditText) findViewById(R.id.comment);
 
-        realmData.setToDoData(title.getText().toString(), place.getText().toString(),
+        realmWrapper.setToDoData(title.getText().toString(), place.getText().toString(),
                 comment.getText().toString(),imageResourceId, importance, dueDate.getTime(),
                 reminderDate.getTime(), repeatFrag, false);
     }
