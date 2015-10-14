@@ -18,12 +18,9 @@ import io.realm.exceptions.RealmMigrationNeededException;
 
 
 public class DetailActivity extends AppCompatActivity {
-    Realm realm;
-    RealmResults<ToDoData> result;
-    RealmQuery<ToDoData> query;
     Intent intent;
-    int position;
-    ToDoDataAdaptor toDoDataAdaptor;
+    int index;
+    static RealmWrapper realmWrapper;
     ToDoData toDoData;
 
     @Override
@@ -31,44 +28,21 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         intent = getIntent();
-        position = intent.getIntExtra("position", 0);
-        try {
-            realm = Realm.getInstance(this,"fileName");
-        } catch (RealmMigrationNeededException r) {
-            Realm.deleteRealmFile(this,"fileName");
-            realm = Realm.getInstance(this,"fileName");
-        }
-        query = realm.where(ToDoData.class);
-        result = query.findAll();
-        toDoData = result.get(position);
+        index = intent.getIntExtra("index", 0);
+        realmWrapper = new RealmWrapper(this, "test.realm");
 
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Log.d("myApp", "setContentView");
-        toDoDataAdaptor = (ToDoDataAdaptor)getIntent().getSerializableExtra("toDoDataAdaptor");
-        Log.d("myApp", "setSerializableExtra//");
-        //initDetailActivity();
-        initDetailActivityProto();
+        toDoData = realmWrapper.getToDoData(index);
+        initDetailActivity();
 
     }
-    public void initDetailActivity() {
-        TextView textView = (TextView) findViewById(R.id.title);
-        textView.setText(toDoDataAdaptor.getTitle());
-        textView = (TextView) findViewById(R.id.comment);
-        textView.setText(toDoDataAdaptor.getComment());
-        textView = (TextView) findViewById(R.id.due_day);
-        textView.setText(toDoDataAdaptor.getDueDate().toString());
-        textView = (TextView) findViewById(R.id.edited_day);
-        textView.setText(toDoDataAdaptor.getEditedDate().toString());
-        textView = (TextView) findViewById(R.id.remainder_day);
-        textView.setText(toDoDataAdaptor.getReminderDate().toString());
-        setImportanceOnDetailView();
-        setRepeatFlagOnDetailView();
-    }
-    public void initDetailActivityProto(){
+    public void initDetailActivity(){
+        Log.d("myApp", "position = " + index);
+        Log.d("myApp", "index = " + toDoData.getIndex());
         TextView textView = (TextView)findViewById(R.id.title);
         textView.setText(toDoData.getTitle());
         textView = (TextView)findViewById(R.id.comment);
@@ -84,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
     }
     public void setImportanceOnDetailView(){
         TextView textView = (TextView)findViewById(R.id.importancee);
-        switch (toDoDataAdaptor.getImportance()){
+        switch (toDoData.getImportance()){
             case 0:
                 textView.setText("低");
                 break;
@@ -100,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     }
     public void setRepeatFlagOnDetailView(){
         TextView textView = (TextView)findViewById(R.id.repeat);
-        if (toDoDataAdaptor.getRepeatFlag()){
+        if (toDoData.getRepeatFlag()){
             textView.setText("する");
         }
         else {

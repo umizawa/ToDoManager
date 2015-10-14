@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setListView(){
         cellDataList = new ArrayList<>();
-        setRealmToCellDataList();
-
+        realmWrapper.setRealmToCellDataList(cellDataList);
         cellAdapter = new CellAdapter(this,cellDataList);
 
         listView = (ListView) findViewById(R.id.list_view);
@@ -54,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("myApp", "position = " + position);
+
+                CellData cellData = (CellData)listView.getItemAtPosition(position);
+                int index = cellData.getIndex();
+
+                Log.d("myApp", "index = " + index);
                 Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-                ToDoDataAdaptor toDoDataAdaptor = new ToDoDataAdaptor();
-                toDoDataAdaptor.ToDoDataAdaptor(realmWrapper.getToDoData((int)id));
-                intent.putExtra("toDoDataAdaptor", toDoDataAdaptor);
-                intent.putExtra("position",position);
+                intent.putExtra("index", index);
                 startActivity(intent);
             }
         });
@@ -66,7 +69,13 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                initDeleteDialog(position);
+                Log.d("myApp", "position = " + position);
+
+                CellData cellData = (CellData)listView.getItemAtPosition(position);
+                int index = cellData.getIndex();
+
+                Log.d("myApp", "index = " + index);
+                initDeleteDialog(index);
                 alertDialog.show();
                 return true;
             }
@@ -92,14 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setRealmToCellDataList(){
-        for (int i = 0; i < realmWrapper.getResultSize(); i++) {
-            ToDoData toDoData = realmWrapper.getToDoData(i);
-            CellData cellData = new CellData(toDoData.getIndex(),toDoData.getImageResourceId(),
-                    toDoData.getDueDate(), toDoData.getTitle());
-            cellDataList.add(cellData);
-        }
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
