@@ -19,10 +19,10 @@ public class RealmWrapper {
 
     public RealmWrapper(Context context, String fileName){
         try {
-            realm = Realm.getInstance(context,"fileName");
+            realm = Realm.getInstance(context,fileName);
         } catch (RealmMigrationNeededException r) {
-            Realm.deleteRealmFile(context,"fileName");
-            realm = Realm.getInstance(context,"fileName");
+            Realm.deleteRealmFile(context,fileName);
+            realm = Realm.getInstance(context,fileName);
         }
         query = realm.where(ToDoData.class);
         result = query.findAll();
