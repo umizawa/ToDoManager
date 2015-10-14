@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -191,7 +191,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         // as you specify a parent activity in AndroidManifest.xml.
         boolean editFinished = false;
         switch (item.getItemId()) {
-            case R.id.menu1:                // メニュー１選択時の処理
+            case R.id.action_add:                // メニュー１選択時の処理
                 editFinished = true;
                 registerToDoData();
                 break;

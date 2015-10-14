@@ -10,12 +10,12 @@
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/menu1"
+        android:id="@+id/action_add"
         android:title="メニュー１"
         android:icon="@android:drawable/ic_menu_agenda"
         />
     <item
-        android:id="@+id/menu2"
+        android:id="@+id/action_search"
         android:title="メニュー２"
         android:icon="@android:drawable/ic_menu_call"
         />

@@ -4,7 +4,7 @@
     tools:context=".EditActivity">
 
     <item
-        android:id="@+id/menu1"
+        android:id="@+id/action_add"
         android:title="完了"
         app:showAsAction="ifRoom"/>
 
