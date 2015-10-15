@@ -1,7 +1,6 @@
 package com.example.naoya.todomanager;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,12 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
-import io.realm.exceptions.RealmMigrationNeededException;
-
 
 public class DetailActivity extends AppCompatActivity {
     Intent intent;
@@ -95,7 +88,11 @@ public class DetailActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         item.getItemId();
         switch (item.getItemId()) {
-            case R.id.action_settings:                // 設定選択時の処理
+            case R.id.action_edit:                // 設定選択時の処理
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra("addMode", false);
+                intent.putExtra("index", index);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

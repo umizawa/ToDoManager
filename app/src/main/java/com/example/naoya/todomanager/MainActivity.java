@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
     @Override
@@ -126,12 +125,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:                // 設定選択時の処理
                 toast("settings");
                 break;
-            case R.id.menu1:                // メニュー１選択時の処理
+            case R.id.action_add:                // メニュー１選択時の処理
                 toast("項目を追加します");
                 Intent intent = new Intent(this, EditActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.menu2:                // メニュー2選択時の処理
+            case R.id.action_search:                // メニュー2選択時の処理
                 toast("検索");
                 break;
             default:

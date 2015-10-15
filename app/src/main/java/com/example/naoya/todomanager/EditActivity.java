@@ -2,9 +2,11 @@ package com.example.naoya.todomanager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,30 +39,44 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     final int day = calendar.get(Calendar.DAY_OF_MONTH);
     final int hour = calendar.get(Calendar.HOUR_OF_DAY);
     final int minute = calendar.get(Calendar.MINUTE);
+    Intent intent;
+    boolean addMode;
 
     RealmWrapper realmWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         realmWrapper = new RealmWrapper(this,"test.realm");
-
         setContentView(R.layout.activity_edit);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setNowDateOnTextView(R.id.due_day_picker_text);
-        setNowDateOnTextView(R.id.reminder_day_picker_text);
-        setNowTimeOnTextView(R.id.due_time_picker_text);
-        setNowTimeOnTextView(R.id.reminder_time_picker_text);
-
+        title = (EditText)findViewById(R.id.name);
+        place = (EditText)findViewById(R.id.place);
+        comment = (EditText) findViewById(R.id.comment);
         setClickListenerOnTextViews();
         due_day_picker_text.setOnClickListener(this);
         due_time_picker_text.setOnClickListener(this);
         reminder_day_picker_text.setOnClickListener(this);
         reminder_time_picker_text.setOnClickListener(this);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        realmWrapper = new RealmWrapper(this, "test.realm");
+
+        intent = getIntent();
+        addMode = intent.getBooleanExtra("addMode", true);
+        Log.d("addMode","addMode = " + addMode);
+        if(!addMode) {
+            int index = intent.getIntExtra("index", 0);
+            ToDoData toDoData = realmWrapper.getToDoData(index);
+            setToDoDataAsDefault(toDoData);
+        } else {
+            setNowDateOnTextView(R.id.due_day_picker_text);
+            setNowDateOnTextView(R.id.reminder_day_picker_text);
+            setNowTimeOnTextView(R.id.due_time_picker_text);
+            setNowTimeOnTextView(R.id.reminder_time_picker_text);
+        }
     }
     @Override
     public void onClick(View v) {
@@ -83,12 +99,21 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
+    public void setToDoDataAsDefault(ToDoData toDoData){
+        title.setText(toDoData.getTitle());
+        place.setText(toDoData.getPlace());
+        due_day_picker_text.setText(toDoData.getDueDate().toString());
 
+    }
     public void registerToDoData(){
 
         int importance;
         int imageResourceId = R.mipmap.ic_launcher;
         boolean repeatFrag;
+
+        title = (EditText)findViewById(R.id.name);
+        place = (EditText)findViewById(R.id.place);
+        comment = (EditText) findViewById(R.id.comment);
 
         importanceSpinner = (Spinner)findViewById(R.id.spinner_importance);
         switch (importanceSpinner.toString()){
@@ -108,9 +133,6 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         repeatSpinner = (Spinner)findViewById(R.id.spinner_repeat);
         repeatFrag = repeatSpinner.toString().equals("する");
 
-        title = (EditText)findViewById(R.id.name);
-        place = (EditText)findViewById(R.id.place);
-        comment = (EditText) findViewById(R.id.comment);
 
         realmWrapper.setToDoData(title.getText().toString(), place.getText().toString(),
                 comment.getText().toString(),imageResourceId, importance, dueDate.getTime(),

@@ -14,7 +14,6 @@ import io.realm.exceptions.RealmMigrationNeededException;
 
 public class RealmWrapper {
     private Realm realm;
-    private RealmQuery<ToDoData> query;
     private RealmResults<ToDoData> result;
     static ToDoData toDoData;
 
@@ -25,13 +24,13 @@ public class RealmWrapper {
             Realm.deleteRealmFile(context,fileName);
             realm = Realm.getInstance(context,fileName);
         }
-        query = realm.where(ToDoData.class);
+        RealmQuery<ToDoData> query = realm.where(ToDoData.class);
         result = query.findAll();
     }
 
-    public void remove(int id){
+    public void remove(int index){
         realm.beginTransaction();
-        realm.where(ToDoData.class).equalTo("index", id).findFirst().removeFromRealm();
+        realm.where(ToDoData.class).equalTo("index", index).findFirst().removeFromRealm();
         realm.commitTransaction();
     }
 
@@ -50,6 +49,27 @@ public class RealmWrapper {
 
         toDoData = realm.createObject(ToDoData.class);
         toDoData.setIndex((int)realm.where(ToDoData.class).maximumInt("index") + 1);
+        toDoData.setTitle(title);
+        toDoData.setPlace(place);
+        toDoData.setComment(comment);
+        toDoData.setImageResourceId(imageResourceId);
+        toDoData.setImportance(importance);
+        toDoData.setRepeatFlag(repeatFrag);
+        toDoData.setEditedDate(Calendar.getInstance().getTime());
+        toDoData.setDueDate(dueDate);
+        toDoData.setReminderDate(reminderDate);
+        toDoData.setFinishFlag(finishFrag);
+
+        realm.commitTransaction();
+    }
+
+    public void setToDoData(int index, String title, String place, String comment, int imageResourceId,
+                                 int importance, Date dueDate, Date reminderDate,
+                                 boolean repeatFrag, boolean finishFrag){
+        realm.beginTransaction();
+
+        toDoData = realm.createObject(ToDoData.class);
+        toDoData.setIndex(index);
         toDoData.setTitle(title);
         toDoData.setPlace(place);
         toDoData.setComment(comment);
