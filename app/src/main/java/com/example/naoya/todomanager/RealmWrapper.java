@@ -1,9 +1,11 @@
 package com.example.naoya.todomanager;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -13,16 +15,15 @@ import io.realm.exceptions.RealmMigrationNeededException;
 public class RealmWrapper {
     private Realm realm;
     private RealmQuery<ToDoData> query;
-    static int index = 0;
     private RealmResults<ToDoData> result;
     static ToDoData toDoData;
 
     public RealmWrapper(Context context, String fileName){
         try {
-            realm = Realm.getInstance(context,"fileName");
+            realm = Realm.getInstance(context,fileName);
         } catch (RealmMigrationNeededException r) {
-            Realm.deleteRealmFile(context,"fileName");
-            realm = Realm.getInstance(context,"fileName");
+            Realm.deleteRealmFile(context,fileName);
+            realm = Realm.getInstance(context,fileName);
         }
         query = realm.where(ToDoData.class);
         result = query.findAll();
@@ -30,12 +31,17 @@ public class RealmWrapper {
 
     public void remove(int id){
         realm.beginTransaction();
-        result.remove(id);
+        realm.where(ToDoData.class).equalTo("index", id).findFirst().removeFromRealm();
         realm.commitTransaction();
     }
 
-    public int getResultSize(){ return result.size(); }
-    public ToDoData getToDoData(int index){ return query.findAll().get(index); }
+    public int getResultSize(){
+        return result.size();
+    }
+
+    public ToDoData getToDoData(int index){
+        return realm.where(ToDoData.class).equalTo("index", index).findFirst();
+    }
 
     public void setToDoData(String title, String place, String comment, int imageResourceId,
                             int importance, Date dueDate, Date reminderDate,
@@ -56,6 +62,14 @@ public class RealmWrapper {
         toDoData.setFinishFlag(finishFrag);
 
         realm.commitTransaction();
-        index++;
+    }
+    public void setRealmToCellDataList(List<CellData> list){
+
+        for (ToDoData toDoData : result) {
+            CellData cellData = new CellData(toDoData.getIndex(),toDoData.getImageResourceId(),
+                    toDoData.getDueDate(), toDoData.getTitle());
+            list.add(cellData);
+            Log.d("myApp", "RW index = " + toDoData.getIndex());
+        }
     }
 }
