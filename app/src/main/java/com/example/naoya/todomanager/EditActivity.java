@@ -19,17 +19,15 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity implements OnClickListener {
-    static EditText title;
-    static EditText place;
-    static EditText comment;
-    static Spinner importanceSpinner;
-    static Spinner repeatSpinner;
-    TextView due_day_picker_text;
-    TextView due_time_picker_text;
-    TextView reminder_day_picker_text;
-    TextView reminder_time_picker_text;
-    static DatePickerDialog datePickerDialog;
-    static TimePickerDialog timePickerDialog;
+    private EditText title;
+    private EditText place;
+    private EditText comment;
+    private Spinner importanceSpinner;
+    private Spinner repeatSpinner;
+    private TextView due_day_picker_text;
+    private TextView due_time_picker_text;
+    private TextView reminder_day_picker_text;
+    private TextView reminder_time_picker_text;
     final Calendar calendar = Calendar.getInstance();
     final Calendar dueDate = Calendar.getInstance();
     final Calendar reminderDate = Calendar.getInstance();
@@ -42,16 +40,14 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         initTextViews();
-        due_day_picker_text.setOnClickListener(this);
-        due_time_picker_text.setOnClickListener(this);
-        reminder_day_picker_text.setOnClickListener(this);
-        reminder_time_picker_text.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         intent = getIntent();
         addMode = intent.getBooleanExtra("addMode", true);
 
@@ -59,28 +55,28 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
             index = intent.getIntExtra("index", 0);
             setToDoDataAsDefault(ToDoAdaptor.getInstance().getToDoData(index));
         } else {
-            setNowDateOnTextView(R.id.due_day_picker_text);
-            setNowDateOnTextView(R.id.reminder_day_picker_text);
-            setNowTimeOnTextView(R.id.due_time_picker_text);
-            setNowTimeOnTextView(R.id.reminder_time_picker_text);
+            setNowTimeAsDefault();
         }
     }
 
     @Override
-    public void onClick(View v) {//switch
-        if (v.getId() == R.id.due_day_picker_text) {
-            setDatePickerDialog(R.id.due_day_picker_text);
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.due_day_picker_text:
+                setDatePickerDialog(R.id.due_day_picker_text);
+                break;
+            case R.id.due_time_picker_text:
+                setTimePickerDialog(R.id.due_time_picker_text);
+                break;
+            case R.id.reminder_day_picker_text:
+                setDatePickerDialog(R.id.reminder_day_picker_text);
+                break;
+            case R.id.reminder_time_picker_text:
+                setTimePickerDialog(R.id.reminder_time_picker_text);
+                break;
+            default:
+                break;
         }
-        else if(v.getId() == R.id.due_time_picker_text) {
-            setTimePickerDialog(R.id.due_time_picker_text);
-        }
-        else if(v.getId() == R.id.reminder_day_picker_text) {
-            setDatePickerDialog(R.id.reminder_day_picker_text);
-        }
-        else if(v.getId() == R.id.reminder_time_picker_text) {
-            setTimePickerDialog(R.id.reminder_time_picker_text);
-        }
-
     }
 
     @Override
@@ -89,6 +85,13 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         return true;
     }
 
+    public void setNowTimeAsDefault(){
+        setNowDateOnTextView(R.id.due_day_picker_text);
+        setNowDateOnTextView(R.id.reminder_day_picker_text);
+        setNowTimeOnTextView(R.id.due_time_picker_text);
+        setNowTimeOnTextView(R.id.reminder_time_picker_text);
+
+    }
     public void setToDoDataAsDefault(ToDoData toDoData){
         title.setText(toDoData.getTitle());
         place.setText(toDoData.getPlace());
@@ -134,6 +137,10 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         comment = (EditText) findViewById(R.id.comment);
         importanceSpinner = (Spinner)findViewById(R.id.spinner_importance);
         repeatSpinner = (Spinner)findViewById(R.id.spinner_repeat);
+        due_day_picker_text.setOnClickListener(this);
+        due_time_picker_text.setOnClickListener(this);
+        reminder_day_picker_text.setOnClickListener(this);
+        reminder_time_picker_text.setOnClickListener(this);
         setClickListenerOnTextViews();
     }
 
@@ -148,6 +155,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     }
 
     public void setDatePickerDialog(final int id){
+        DatePickerDialog datePickerDialog;
         datePickerDialog = new DatePickerDialog(
             this,
             new DatePickerDialog.OnDateSetListener() {
@@ -173,6 +181,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         datePickerDialog.show();
     }
     public void setTimePickerDialog(final int id){
+        TimePickerDialog timePickerDialog;
         timePickerDialog = new TimePickerDialog(
             this,
             new TimePickerDialog.OnTimeSetListener() {

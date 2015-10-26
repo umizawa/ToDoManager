@@ -120,17 +120,20 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         item.getItemId();
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_settings:                // 設定選択時の処理
                 toast("settings");
                 break;
             case R.id.action_add:                // メニュー１選択時の処理
                 toast("項目を追加します");
-                Intent intent = new Intent(this, EditActivity.class);
+                intent = new Intent(this, EditActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_search:                // メニュー2選択時の処理
                 toast("検索");
+                intent = new Intent(this, SearchViewActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

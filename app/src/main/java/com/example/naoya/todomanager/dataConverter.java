@@ -43,7 +43,7 @@ public class dataConverter {
     }
 
     public static int getImportanceInteger(String string){
-        int importance = 0;
+        int importance;
         switch (string){
             case "低":
                 importance = 0;
@@ -59,5 +59,34 @@ public class dataConverter {
                 break;
         }
         return importance;
+    }
+
+    public static String getImportanceString(int importance){
+        String string;
+        switch (importance){
+            case 0:
+                string = "低";
+                break;
+            case 1:
+                string = "中";
+                break;
+            case 2:
+                string = "高";
+                break;
+            default:
+                string = "低";
+                break;
+        }
+        return string;
+    }
+
+    public static String getRepeatFlagString(boolean repeatFlag){
+        String string;
+        if (repeatFlag){
+            string = "する";
+        } else {
+            string = "しない";
+        }
+        return string;
     }
 }

@@ -17,10 +17,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListViewActivity"
-            android:label="@string/title_activity_list_view" >
-        </activity>
-        <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
             android:launchMode="singleTop"

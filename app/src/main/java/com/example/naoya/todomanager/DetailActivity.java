@@ -27,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
         initDetailActivity(ToDoAdaptor.getInstance().getToDoData(index));
 
     }
-    public void initDetailActivity(ToDoData toDoData){
+    public void initDetailActivity(ToDoData toDoData) {
         Log.d("myApp", "position = " + index);
         Log.d("myApp", "index = " + toDoData.getIndex());
         TextView textView = (TextView)findViewById(R.id.title);
@@ -45,31 +45,17 @@ public class DetailActivity extends AppCompatActivity {
         setImportanceOnDetailView(toDoData);
         setRepeatFlagOnDetailView(toDoData);
     }
-    public void setImportanceOnDetailView(ToDoData toDoData){
+
+    public void setImportanceOnDetailView(ToDoData toDoData) {
         TextView textView = (TextView)findViewById(R.id.importance);
-        switch (toDoData.getImportance()){
-            case 0:
-                textView.setText("低");
-                break;
-            case 1:
-                textView.setText("中");
-                break;
-            case 2:
-                textView.setText("高");
-                break;
-            default:
-                break;
-        }
+        textView.setText(dataConverter.getImportanceString(toDoData.getImportance()));
     }
-    public void setRepeatFlagOnDetailView(ToDoData toDoData){
+
+    public void setRepeatFlagOnDetailView(ToDoData toDoData) {
         TextView textView = (TextView)findViewById(R.id.repeat);
-        if (toDoData.getRepeatFlag()){
-            textView.setText("する");
-        }
-        else {
-            textView.setText("しない");
-        }
+        textView.setText(dataConverter.getRepeatFlagString(toDoData.getRepeatFlag()));
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);

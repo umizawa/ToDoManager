@@ -51,6 +51,7 @@ public class ToDoAdaptor {
     public void setToDoData(String title, String place, String comment, int imageResourceId,
                             int importance, Date dueDate, Date reminderDate,
                             boolean repeatFrag, boolean finishFrag) {
+
         ToDoData toDoData = new ToDoData();
 
         toDoData.setIndex((int)realm.where(ToDoData.class).maximumInt(ID_COLUMN_NAME) + 1);
@@ -73,6 +74,7 @@ public class ToDoAdaptor {
     public void setToDoData(int index, String title, String place, String comment, int imageResourceId,
                                  int importance, Date dueDate, Date reminderDate,
                                  boolean repeatFrag, boolean finishFrag){
+
         ToDoData toDoData = new ToDoData();
 
         toDoData.setIndex(index);
