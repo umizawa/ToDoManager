@@ -28,10 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/image"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
             android:textSize="30sp"
             android:text="タイトル"/>
-</RelativeLayout>
+    </RelativeLayout>
     <ScrollView
         android:id="@+id/ScrollView"
         android:layout_height="fill_parent"
@@ -47,19 +47,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/label_importance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="重要度:"/>
-                <TextView
-                    android:id="@+id/importancee"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="LorMorH"/>
-                <TextView
                     android:id="@+id/label_due_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,31 +60,32 @@
                     android:textSize="20sp"
                     android:text="YYYY/DD/MM HH:MM"/>
                 <TextView
-                    android:id="@+id/label_comment"
+                    android:id="@+id/label_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="コメント:"/>
+                    android:text="場所:"/>
                 <TextView
-                    android:id="@+id/comment"
+                    android:id="@+id/place"
                     android:layout_marginLeft="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="COMMENT"/>
+                    android:text="PLACE"/>
                 <TextView
-                    android:id="@+id/label_group"
+                    android:id="@+id/label_importance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="グループ:"/>
+                    android:text="重要度:"/>
                 <TextView
+                    android:id="@+id/importance"
                     android:layout_marginLeft="20dp"
-                    android:id="@+id/group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="GROUP"/>
+                    android:text="LorMorH"/>
+
                 <TextView
                     android:id="@+id/label_tag"
                     android:layout_width="wrap_content"
@@ -112,19 +100,6 @@
                     android:textSize="20sp"
                     android:text="TAG"/>
                 <TextView
-                    android:id="@+id/label_reminder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="リマインダー:"/>
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/remainder_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="YYYY/MM/DD HH:MM"/>
-                <TextView
                     android:id="@+id/label_repeat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,6 +113,19 @@
                     android:textSize="20sp"
                     android:text="REPEAT"/>
                 <TextView
+                    android:id="@+id/label_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="リマインダー:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/remainder_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="YYYY/MM/DD HH:MM"/>
+                <TextView
                     android:id="@+id/label_edited_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -150,6 +138,19 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:text="YYYY/MM/DD HH:MM"/>
+                <TextView
+                    android:id="@+id/label_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="コメント:"/>
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="COMMENT"/>
            </LinearLayout>
         </LinearLayout>
     </ScrollView>

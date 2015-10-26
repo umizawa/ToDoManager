@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     AlertDialog.Builder alertDialog;
 
-    static RealmWrapper realmWrapper;
+    private final String REALM_FILE_NAME = "test.realm";
 
 
     @Override
@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_main);
         setSupportActionBar(toolbar);
 
-        realmWrapper = new RealmWrapper(this,"test.realm");
+        ToDoAdaptor.getInstance().getRealmInstance(this, REALM_FILE_NAME);
 
         setListView();
-        toast(realmWrapper.getResultSize() + "個の項目があります。");
+        toast(ToDoAdaptor.getInstance().getResultSize() + "個の項目があります。");
 
     }
 
     public void setListView(){
         cellDataList = new ArrayList<>();
-        realmWrapper.setRealmToCellDataList(cellDataList);
+        ToDoAdaptor.getInstance().setRealmToCellDataList(cellDataList);
         cellAdapter = new CellAdapter(this,cellDataList);
 
         listView = (ListView) findViewById(R.id.list_view);
@@ -85,11 +85,11 @@ public class MainActivity extends AppCompatActivity {
     public void initDeleteDialog(final int id){
 
         alertDialog.setTitle("削除");
-        alertDialog.setMessage(realmWrapper.getToDoData(id).getTitle() + "を削除しますか？");
+        alertDialog.setMessage(ToDoAdaptor.getInstance().getToDoData(id).getTitle() + "を削除しますか？");
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                realmWrapper.remove(id);
+                ToDoAdaptor.getInstance().remove(id);
                 setListView();
                 toast("削除しました");
             }
@@ -108,11 +108,12 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     protected void onResume(){
         super.onResume();
         setListView();
-        toast(realmWrapper.getResultSize() + "個の項目があります。");
+        toast(ToDoAdaptor.getInstance().getResultSize() + "個の項目があります。");
     }
 
     @Override

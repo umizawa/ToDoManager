@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,26 +33,20 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     final Calendar calendar = Calendar.getInstance();
     final Calendar dueDate = Calendar.getInstance();
     final Calendar reminderDate = Calendar.getInstance();
-    final int year = calendar.get(Calendar.YEAR);
-    final int month = calendar.get(Calendar.MONTH);
-    final int day = calendar.get(Calendar.DAY_OF_MONTH);
-    final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-    final int minute = calendar.get(Calendar.MINUTE);
     Intent intent;
+    int index;
     boolean addMode;
 
-    RealmWrapper realmWrapper;
+    ToDoAdaptor toDoAdaptor;
+
+    private final String REALM_FILE_NAME = "test.realm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        realmWrapper = new RealmWrapper(this,"test.realm");
         setContentView(R.layout.activity_edit);
-
-        title = (EditText)findViewById(R.id.name);
-        place = (EditText)findViewById(R.id.place);
-        comment = (EditText) findViewById(R.id.comment);
-        setClickListenerOnTextViews();
+        toDoAdaptor = new ToDoAdaptor(this,REALM_FILE_NAME);
+        initTextViews();
         due_day_picker_text.setOnClickListener(this);
         due_time_picker_text.setOnClickListener(this);
         reminder_day_picker_text.setOnClickListener(this);
@@ -61,15 +54,15 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        realmWrapper = new RealmWrapper(this, "test.realm");
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         intent = getIntent();
         addMode = intent.getBooleanExtra("addMode", true);
-        Log.d("addMode","addMode = " + addMode);
+
         if(!addMode) {
-            int index = intent.getIntExtra("index", 0);
-            ToDoData toDoData = realmWrapper.getToDoData(index);
+            index = intent.getIntExtra("index", 0);
+            ToDoData toDoData = toDoAdaptor.getToDoData(index);
             setToDoDataAsDefault(toDoData);
         } else {
             setNowDateOnTextView(R.id.due_day_picker_text);
@@ -78,8 +71,9 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
             setNowTimeOnTextView(R.id.reminder_time_picker_text);
         }
     }
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {//switch
         if (v.getId() == R.id.due_day_picker_text) {
             setDatePickerDialog(R.id.due_day_picker_text);
         }
@@ -94,29 +88,30 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         }
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
+
     public void setToDoDataAsDefault(ToDoData toDoData){
         title.setText(toDoData.getTitle());
         place.setText(toDoData.getPlace());
-        due_day_picker_text.setText(toDoData.getDueDate().toString());
-
+        due_day_picker_text.setText(dateConverter.getDateString(toDoData.getDueDate()));
+        due_time_picker_text.setText(dateConverter.getTimeString(toDoData.getDueDate()));
+        reminder_day_picker_text.setText(dateConverter.getDateString(toDoData.getReminderDate()));
+        reminder_time_picker_text.setText(dateConverter.getTimeString(toDoData.getReminderDate()));
+        comment.setText(toDoData.getComment());
+        importanceSpinner.setSelection(toDoData.getImportance());
     }
-    public void registerToDoData(){
 
+    public void registerToDoData(){
         int importance;
         int imageResourceId = R.mipmap.ic_launcher;
         boolean repeatFrag;
 
-        title = (EditText)findViewById(R.id.name);
-        place = (EditText)findViewById(R.id.place);
-        comment = (EditText) findViewById(R.id.comment);
-
-        importanceSpinner = (Spinner)findViewById(R.id.spinner_importance);
-        switch (importanceSpinner.toString()){
+        switch ((String)importanceSpinner.getSelectedItem()){
             case "低":
                 importance = 0;
                 break;
@@ -130,14 +125,18 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
                 importance = 0;
                 break;
         }
-        repeatSpinner = (Spinner)findViewById(R.id.spinner_repeat);
-        repeatFrag = repeatSpinner.toString().equals("する");
-
-
-        realmWrapper.setToDoData(title.getText().toString(), place.getText().toString(),
-                comment.getText().toString(),imageResourceId, importance, dueDate.getTime(),
-                reminderDate.getTime(), repeatFrag, false);
+        repeatFrag = repeatSpinner.getSelectedItem().equals("する");
+        if(addMode) {
+            toDoAdaptor.setToDoData(title.getText().toString(), place.getText().toString(),
+                    comment.getText().toString(), imageResourceId, importance, dueDate.getTime(),
+                    reminderDate.getTime(), repeatFrag, false);
+        } else {
+            toDoAdaptor.setToDoData(index, title.getText().toString(), place.getText().toString(),
+                    comment.getText().toString(), imageResourceId, importance, dueDate.getTime(),
+                    reminderDate.getTime(), repeatFrag, false);
+        }
     }
+
     public void setClickListenerOnTextViews(){
         due_day_picker_text = (TextView)findViewById(R.id.due_day_picker_text);
         due_day_picker_text.setClickable(true);
@@ -148,17 +147,26 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         reminder_time_picker_text = (TextView)findViewById(R.id.reminder_time_picker_text);
         reminder_time_picker_text.setClickable(true);
     }
+
+    public void initTextViews(){
+        title = (EditText)findViewById(R.id.name);
+        place = (EditText)findViewById(R.id.place);
+        comment = (EditText) findViewById(R.id.comment);
+        importanceSpinner = (Spinner)findViewById(R.id.spinner_importance);
+        repeatSpinner = (Spinner)findViewById(R.id.spinner_repeat);
+        setClickListenerOnTextViews();
+    }
+
     public void setNowDateOnTextView(int id){
         TextView textView = (TextView)findViewById(id);
-        textView.setText(String.valueOf(year) + "年" +
-                String.valueOf(month + 1) + "月" +
-                String.valueOf(day) + "日");
+        textView.setText(dateConverter.getDateString(calendar));
     }
+
     public void setNowTimeOnTextView(int id){
         TextView textView = (TextView) findViewById(id);
-        textView.setText(String.valueOf(hour) + "時" +
-                String.valueOf(minute) + "分");
+        textView.setText(dateConverter.getTimeString(calendar));
     }
+
     public void setDatePickerDialog(final int id){
         datePickerDialog = new DatePickerDialog(
             this,
@@ -181,7 +189,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
                     }
                 }
             },
-            year, month, day);
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
     public void setTimePickerDialog(final int id){
@@ -198,19 +206,16 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
                         dueDate.set(Calendar.MINUTE, minute);
                     }
                     else if(id == R.id.reminder_time_picker_text) {
-                        dueDate.set(Calendar.HOUR_OF_DAY, hour);
-                        dueDate.set(Calendar.MINUTE, minute);
+                        reminderDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        reminderDate.set(Calendar.MINUTE, minute);
                     }
                 }
-            },
-            hour, minute, true);
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
         timePickerDialog.show();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         boolean editFinished = false;
         switch (item.getItemId()) {
             case R.id.action_add:                // メニュー１選択時の処理
