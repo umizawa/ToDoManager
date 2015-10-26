@@ -3,19 +3,16 @@ package com.example.naoya.todomanager;
 import java.util.Calendar;
 import java.util.Date;
 
-public class dateConverter {
+public class dataConverter {
+
     public static String getDateString(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return String.valueOf(year) + "年" +
-                String.valueOf(month) + "月" +
-                String.valueOf(day) + "日";
+        return getDateString(calendar);
     }
+
     public static String getDateString(Calendar calendar){
-        return String.valueOf(calendar.get(Calendar.HOUR)) + "年" +
+        return String.valueOf(calendar.get(Calendar.YEAR)) + "年" +
                 String.valueOf(calendar.get(Calendar.MONTH)) + "月" +
                 String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "日");
     }
@@ -23,10 +20,7 @@ public class dateConverter {
     public static String getTimeString(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        return String.valueOf(hour) + "時" +
-                String.valueOf(minute) + "分";
+        return getTimeString(calendar);
     }
 
     public static String getTimeString(Calendar calendar){
@@ -45,10 +39,25 @@ public class dateConverter {
     public static String getDateTimeString(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return String.valueOf(calendar.get(Calendar.YEAR)) + "年" +
-                String.valueOf(calendar.get(Calendar.MONTH)) + "月" +
-                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "日" + " " +
-                String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)) + "時" +
-                String.valueOf(calendar.get(Calendar.MINUTE)) + "分";
+        return getDateTimeString(calendar);
+    }
+
+    public static int getImportanceInteger(String string){
+        int importance = 0;
+        switch (string){
+            case "低":
+                importance = 0;
+                break;
+            case "中":
+                importance = 1;
+                break;
+            case "高":
+                importance = 2;
+                break;
+            default:
+                importance = 0;
+                break;
+        }
+        return importance;
     }
 }

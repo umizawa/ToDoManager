@@ -37,15 +37,10 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     int index;
     boolean addMode;
 
-    ToDoAdaptor toDoAdaptor;
-
-    private final String REALM_FILE_NAME = "test.realm";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        toDoAdaptor = new ToDoAdaptor(this,REALM_FILE_NAME);
         initTextViews();
         due_day_picker_text.setOnClickListener(this);
         due_time_picker_text.setOnClickListener(this);
@@ -62,8 +57,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
 
         if(!addMode) {
             index = intent.getIntExtra("index", 0);
-            ToDoData toDoData = toDoAdaptor.getToDoData(index);
-            setToDoDataAsDefault(toDoData);
+            setToDoDataAsDefault(ToDoAdaptor.getInstance().getToDoData(index));
         } else {
             setNowDateOnTextView(R.id.due_day_picker_text);
             setNowDateOnTextView(R.id.reminder_day_picker_text);
@@ -98,41 +92,27 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     public void setToDoDataAsDefault(ToDoData toDoData){
         title.setText(toDoData.getTitle());
         place.setText(toDoData.getPlace());
-        due_day_picker_text.setText(dateConverter.getDateString(toDoData.getDueDate()));
-        due_time_picker_text.setText(dateConverter.getTimeString(toDoData.getDueDate()));
-        reminder_day_picker_text.setText(dateConverter.getDateString(toDoData.getReminderDate()));
-        reminder_time_picker_text.setText(dateConverter.getTimeString(toDoData.getReminderDate()));
+        due_day_picker_text.setText(dataConverter.getDateString(toDoData.getDueDate()));
+        due_time_picker_text.setText(dataConverter.getTimeString(toDoData.getDueDate()));
+        reminder_day_picker_text.setText(dataConverter.getDateString(toDoData.getReminderDate()));
+        reminder_time_picker_text.setText(dataConverter.getTimeString(toDoData.getReminderDate()));
         comment.setText(toDoData.getComment());
         importanceSpinner.setSelection(toDoData.getImportance());
     }
 
     public void registerToDoData(){
-        int importance;
         int imageResourceId = R.mipmap.ic_launcher;
-        boolean repeatFrag;
-
-        switch ((String)importanceSpinner.getSelectedItem()){
-            case "低":
-                importance = 0;
-                break;
-            case "中":
-                importance = 1;
-                break;
-            case "高":
-                importance = 2;
-                break;
-            default:
-                importance = 0;
-                break;
-        }
-        repeatFrag = repeatSpinner.getSelectedItem().equals("する");
+        int importance = dataConverter.getImportanceInteger((String) importanceSpinner.getSelectedItem());
+        boolean repeatFrag = repeatSpinner.getSelectedItem().equals("する");
         if(addMode) {
-            toDoAdaptor.setToDoData(title.getText().toString(), place.getText().toString(),
-                    comment.getText().toString(), imageResourceId, importance, dueDate.getTime(),
+            ToDoAdaptor.getInstance().setToDoData(title.getText().toString(),
+                    place.getText().toString(), comment.getText().toString(),
+                    imageResourceId, importance, dueDate.getTime(),
                     reminderDate.getTime(), repeatFrag, false);
         } else {
-            toDoAdaptor.setToDoData(index, title.getText().toString(), place.getText().toString(),
-                    comment.getText().toString(), imageResourceId, importance, dueDate.getTime(),
+            ToDoAdaptor.getInstance().setToDoData(index, title.getText().toString(),
+                    place.getText().toString(), comment.getText().toString(),
+                    imageResourceId, importance, dueDate.getTime(),
                     reminderDate.getTime(), repeatFrag, false);
         }
     }
@@ -159,12 +139,12 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
 
     public void setNowDateOnTextView(int id){
         TextView textView = (TextView)findViewById(id);
-        textView.setText(dateConverter.getDateString(calendar));
+        textView.setText(dataConverter.getDateString(calendar));
     }
 
     public void setNowTimeOnTextView(int id){
         TextView textView = (TextView) findViewById(id);
-        textView.setText(dateConverter.getTimeString(calendar));
+        textView.setText(dataConverter.getTimeString(calendar));
     }
 
     public void setDatePickerDialog(final int id){

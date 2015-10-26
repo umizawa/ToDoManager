@@ -11,16 +11,12 @@ import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
     int index;
-    static ToDoAdaptor toDoAdaptor;
-    ToDoData toDoData;
-    private final String REALM_FILE_NAME = "test.realm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         index = intent.getIntExtra("index", 0);
-        toDoAdaptor = new ToDoAdaptor(this, REALM_FILE_NAME);
 
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_detail);
@@ -28,11 +24,10 @@ public class DetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toDoData = toDoAdaptor.getToDoData(index);
-        initDetailActivity();
+        initDetailActivity(ToDoAdaptor.getInstance().getToDoData(index));
 
     }
-    public void initDetailActivity(){
+    public void initDetailActivity(ToDoData toDoData){
         Log.d("myApp", "position = " + index);
         Log.d("myApp", "index = " + toDoData.getIndex());
         TextView textView = (TextView)findViewById(R.id.title);
@@ -42,15 +37,15 @@ public class DetailActivity extends AppCompatActivity {
         textView =(TextView)findViewById(R.id.place);
         textView.setText(toDoData.getPlace());
         textView = (TextView)findViewById(R.id.due_day);
-        textView.setText(dateConverter.getDateTimeString(toDoData.getDueDate()));
+        textView.setText(dataConverter.getDateTimeString(toDoData.getDueDate()));
         textView = (TextView)findViewById(R.id.edited_day);
-        textView.setText(dateConverter.getDateTimeString(toDoData.getEditedDate()));
+        textView.setText(dataConverter.getDateTimeString(toDoData.getEditedDate()));
         textView = (TextView)findViewById(R.id.remainder_day);
-        textView.setText(dateConverter.getDateTimeString(toDoData.getReminderDate()));
-        setImportanceOnDetailView();
-        setRepeatFlagOnDetailView();
+        textView.setText(dataConverter.getDateTimeString(toDoData.getReminderDate()));
+        setImportanceOnDetailView(toDoData);
+        setRepeatFlagOnDetailView(toDoData);
     }
-    public void setImportanceOnDetailView(){
+    public void setImportanceOnDetailView(ToDoData toDoData){
         TextView textView = (TextView)findViewById(R.id.importance);
         switch (toDoData.getImportance()){
             case 0:
@@ -66,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
     }
-    public void setRepeatFlagOnDetailView(){
+    public void setRepeatFlagOnDetailView(ToDoData toDoData){
         TextView textView = (TextView)findViewById(R.id.repeat);
         if (toDoData.getRepeatFlag()){
             textView.setText("する");
@@ -97,7 +92,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        toDoData = toDoAdaptor.getToDoData(index);
-        initDetailActivity();
+        initDetailActivity(ToDoAdaptor.getInstance().getToDoData(index));
     }
 }

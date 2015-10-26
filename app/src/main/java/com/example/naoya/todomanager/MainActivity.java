@@ -19,12 +19,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<CellData> cellDataList;
-    CellAdapter cellAdapter;
     ListView listView;
     AlertDialog.Builder alertDialog;
 
-    private final String REALM_FILE_NAME = "test.realm";
+    static final String REALM_FILE_NAME = "test.realm";
 
 
     @Override
@@ -43,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setListView(){
-        cellDataList = new ArrayList<>();
+        List<CellData> cellDataList = new ArrayList<>();
         ToDoAdaptor.getInstance().setRealmToCellDataList(cellDataList);
-        cellAdapter = new CellAdapter(this,cellDataList);
+        CellAdapter cellAdapter = new CellAdapter(this,cellDataList);
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(cellAdapter);
