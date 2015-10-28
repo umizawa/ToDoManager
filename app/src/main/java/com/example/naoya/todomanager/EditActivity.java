@@ -223,6 +223,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         String str = "";
         if(!addMode) {
             str = ToDoAdaptor.getInstance().getTag(index);
+        }
         final String[] chkItems = ToDoAdaptor.getInstance().getTagStringArray();
         final boolean[] chkSts = ToDoAdaptor.getInstance().getTagFlagArray(str);
         AlertDialog.Builder checkDlg = new AlertDialog.Builder(this);
