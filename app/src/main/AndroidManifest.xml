@@ -20,23 +20,32 @@
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.naoya.todomanager.MainActivity" />
         </activity>
         <activity
             android:name=".EditActivity"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_edit"
-            android:parentActivityName=".MainActivity">
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.naoya.todomanager.MainActivity" />
         </activity>
         <activity
             android:name=".SearchViewActivity"
-            android:label="@string/title_activity_search_view" >
+            android:label="@string/title_activity_search_view"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.naoya.todomanager.MainActivity" />
+        </activity>
+        <activity
+            android:name=".TagEditActivity"
+            android:label="@string/title_activity_tag_edit"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.naoya.todomanager.MainActivity" />

@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class CellData {
 
-    private int index;
+    private int id;
     private int imageResourceId;
     private Date  dueDay;
     private String cellTitle;
 
-    public CellData(int index, int imageResourceId, Date dueDay, String cellTitle){
-        this.index = index;
+    public CellData(int id, int imageResourceId, Date dueDay, String cellTitle){
+        this.id = id;
         this.imageResourceId = imageResourceId;
         this.dueDay = dueDay;
         this.cellTitle = cellTitle;
     }
 
-    public int getIndex(){return index;}
+    public int getId(){return id;}
     public int getCellImageResourceId() {return imageResourceId;}
     public Date getCellDueDay() {return dueDay;}
     public String getCellTitle() {return cellTitle;}

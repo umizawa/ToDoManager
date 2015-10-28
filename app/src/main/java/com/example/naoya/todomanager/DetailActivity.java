@@ -16,7 +16,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        index = intent.getIntExtra("index", 0);
+        index = intent.getIntExtra("id", 0);
 
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_detail);
@@ -29,13 +29,15 @@ public class DetailActivity extends AppCompatActivity {
     }
     public void initDetailActivity(ToDoData toDoData) {
         Log.d("myApp", "position = " + index);
-        Log.d("myApp", "index = " + toDoData.getIndex());
+        Log.d("myApp", "id = " + toDoData.getId());
         TextView textView = (TextView)findViewById(R.id.title);
         textView.setText(toDoData.getTitle());
         textView = (TextView)findViewById(R.id.comment);
         textView.setText(toDoData.getComment());
-        textView =(TextView)findViewById(R.id.place);
+        textView = (TextView)findViewById(R.id.place);
         textView.setText(toDoData.getPlace());
+        textView = (TextView)findViewById(R.id.tag);
+        textView.setText(toDoData.getTag());
         textView = (TextView)findViewById(R.id.due_day);
         textView.setText(dataConverter.getDateTimeString(toDoData.getDueDate()));
         textView = (TextView)findViewById(R.id.edited_day);

@@ -1,6 +1,7 @@
 package com.example.naoya.todomanager;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,10 @@ public class CellAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.table_cell, null);
             cellHolder = genCellHolder(convertView);
             convertView.setTag(cellHolder);
+            Log.d("getView", "null");
         } else {
             cellHolder = (CellHolder) convertView.getTag();
+            Log.d("getView", "else");
         }
         setCellData(cellDataList.get(position), cellHolder);
 

@@ -2,8 +2,10 @@ package com.example.naoya.todomanager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,9 +30,13 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     private TextView due_time_picker_text;
     private TextView reminder_day_picker_text;
     private TextView reminder_time_picker_text;
+    private TextView tag;
     final Calendar calendar = Calendar.getInstance();
     final Calendar dueDate = Calendar.getInstance();
     final Calendar reminderDate = Calendar.getInstance();
+
+    String tagString = "";
+
     Intent intent;
     int index;
     boolean addMode;
@@ -39,7 +45,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        initTextViews();
+        initTextViews(this);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_edit);
         setSupportActionBar(toolbar);
@@ -57,6 +63,9 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         } else {
             setNowTimeAsDefault();
         }
+
+
+
     }
 
     @Override
@@ -73,6 +82,9 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
                 break;
             case R.id.reminder_time_picker_text:
                 setTimePickerDialog(R.id.reminder_time_picker_text);
+                break;
+            case R.id.tag:
+                setCheckBoxDialog(addMode);
                 break;
             default:
                 break;
@@ -101,6 +113,7 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         reminder_time_picker_text.setText(dataConverter.getTimeString(toDoData.getReminderDate()));
         comment.setText(toDoData.getComment());
         importanceSpinner.setSelection(toDoData.getImportance());
+        tag.setText(toDoData.getTag());
     }
 
     public void registerToDoData(){
@@ -111,12 +124,12 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
             ToDoAdaptor.getInstance().setToDoData(title.getText().toString(),
                     place.getText().toString(), comment.getText().toString(),
                     imageResourceId, importance, dueDate.getTime(),
-                    reminderDate.getTime(), repeatFrag, false);
+                    reminderDate.getTime(), repeatFrag, false, tagString);
         } else {
             ToDoAdaptor.getInstance().setToDoData(index, title.getText().toString(),
                     place.getText().toString(), comment.getText().toString(),
                     imageResourceId, importance, dueDate.getTime(),
-                    reminderDate.getTime(), repeatFrag, false);
+                    reminderDate.getTime(), repeatFrag, false, tagString);
         }
     }
 
@@ -129,19 +142,22 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
         reminder_day_picker_text.setClickable(true);
         reminder_time_picker_text = (TextView)findViewById(R.id.reminder_time_picker_text);
         reminder_time_picker_text.setClickable(true);
+        tag = (TextView)findViewById(R.id.tag);
+        tag.setClickable(true);
     }
 
-    public void initTextViews(){
+    public void initTextViews(OnClickListener onClickListener){
         title = (EditText)findViewById(R.id.name);
         place = (EditText)findViewById(R.id.place);
         comment = (EditText) findViewById(R.id.comment);
         importanceSpinner = (Spinner)findViewById(R.id.spinner_importance);
         repeatSpinner = (Spinner)findViewById(R.id.spinner_repeat);
-        due_day_picker_text.setOnClickListener(this);
-        due_time_picker_text.setOnClickListener(this);
-        reminder_day_picker_text.setOnClickListener(this);
-        reminder_time_picker_text.setOnClickListener(this);
         setClickListenerOnTextViews();
+        due_day_picker_text.setOnClickListener(onClickListener);
+        due_time_picker_text.setOnClickListener(onClickListener);
+        reminder_day_picker_text.setOnClickListener(onClickListener);
+        reminder_time_picker_text.setOnClickListener(onClickListener);
+        tag.setOnClickListener(onClickListener);
     }
 
     public void setNowDateOnTextView(int id){
@@ -201,6 +217,42 @@ public class EditActivity extends AppCompatActivity implements OnClickListener {
                 }
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
         timePickerDialog.show();
+    }
+
+    public void setCheckBoxDialog(boolean addMode){
+        String str = "";
+        if(!addMode) {
+            str = ToDoAdaptor.getInstance().getTag(index);
+        final String[] chkItems = ToDoAdaptor.getInstance().getTagStringArray();
+        final boolean[] chkSts = ToDoAdaptor.getInstance().getTagFlagArray(str);
+        AlertDialog.Builder checkDlg = new AlertDialog.Builder(this);
+        checkDlg.setTitle("タグを選択してください");
+        checkDlg.setMultiChoiceItems(
+                chkItems,
+                chkSts,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    public void onClick(DialogInterface dialog, int which, boolean flag) {
+                        chkSts[which] = flag;
+                    }
+                });
+        checkDlg.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        tagString = getTagString(chkItems, chkSts);
+                        tag.setText(tagString);
+                    }
+                });
+        checkDlg.show();
+    }
+    public String getTagString(String[] chkItems, boolean[] chkSts){
+        String tagString = "";
+        for(int i = 0; i < chkItems.length; i++){
+            if(chkSts[i]){
+                tagString += chkItems[i] + " ";
+            }
+        }
+        return tagString;
     }
 
     @Override
