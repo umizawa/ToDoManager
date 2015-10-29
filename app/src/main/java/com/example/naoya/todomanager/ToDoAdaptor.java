@@ -77,20 +77,20 @@ public class ToDoAdaptor {
         realm.commitTransaction();
     }
 
-    public void setToDoData(int index, String title, String place, String comment, int imageResourceId,
+    public void setToDoData(int id, String title, String place, String comment, int imageResourceId,
                                  int importance, Date dueDate, Date reminderDate,
                                  boolean repeatFrag, boolean finishFrag, String tag){
 
         ToDoData toDoData = new ToDoData();
 
-        toDoData.setId(index);
+        toDoData.setId(id);
         toDoData.setTitle(title);
         toDoData.setPlace(place);
         toDoData.setComment(comment);
         toDoData.setImageResourceId(imageResourceId);
         toDoData.setImportance(importance);
         toDoData.setRepeatFlag(repeatFrag);
-        toDoData.setEditedDate(Calendar.getInstance().getTime());
+        toDoData.setEditedDate(ToDoAdaptor.getInstance().getToDoData(id).getEditedDate());
         toDoData.setDueDate(dueDate);
         toDoData.setReminderDate(reminderDate);
         toDoData.setFinishFlag(finishFrag);
