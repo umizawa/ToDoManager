@@ -116,18 +116,6 @@
                     android:text="HH:MM"/>
             </LinearLayout>
             <TextView
-                android:id="@+id/label_tags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="タグ"/>
-            <TextView
-                android:id="@+id/tag"
-                android:paddingLeft="10sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:hint="タグを選択してください"/>
-            <TextView
                 android:id="@+id/label_repeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,6 +137,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="コメントを入力してください"/>
+            <TextView
+                android:id="@+id/label_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="タグ"/>
+            <TextView
+                android:id="@+id/tag"
+                android:paddingLeft="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="TAG"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

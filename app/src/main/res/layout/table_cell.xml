@@ -13,6 +13,7 @@
         android:layout_toRightOf="@id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="7dp"
         android:maxLines="1"
         android:text="タイトル"
         android:textSize="22sp"/>
@@ -22,6 +23,7 @@
         android:layout_below="@id/table_cell_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="7dp"
         android:text="期限:"
         android:textSize="12sp"/>
     <TextView

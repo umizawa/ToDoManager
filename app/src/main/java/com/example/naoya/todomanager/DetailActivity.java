@@ -10,13 +10,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
-    int index;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        index = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
 
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_detail);
@@ -24,11 +24,11 @@ public class DetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        initDetailActivity(ToDoAdaptor.getInstance().getToDoData(index));
+        initDetailActivity(ToDoAdaptor.getInstance().getToDoData(id));
 
     }
     public void initDetailActivity(ToDoData toDoData) {
-        Log.d("myApp", "position = " + index);
+        Log.d("myApp", "position = " + id);
         Log.d("myApp", "id = " + toDoData.getId());
         TextView textView = (TextView)findViewById(R.id.title);
         textView.setText(toDoData.getTitle());
@@ -71,7 +71,7 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.action_edit:                // 設定選択時の処理
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra("addMode", false);
-                intent.putExtra("index", index);
+                intent.putExtra("id", id);
                 startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -80,6 +80,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        initDetailActivity(ToDoAdaptor.getInstance().getToDoData(index));
+        initDetailActivity(ToDoAdaptor.getInstance().getToDoData(id));
     }
 }

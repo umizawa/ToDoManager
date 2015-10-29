@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
@@ -35,9 +36,9 @@ public class ToDoAdaptor {
         }
     }
 
-    public void remove(int id) {
+    public void remove(Class clazz, int id) {
         realm.beginTransaction();
-        realm.where(ToDoData.class).equalTo(ID_COLUMN_NAME, id).findFirst().removeFromRealm();
+        realm.where(clazz).equalTo(ID_COLUMN_NAME, id).findFirst().removeFromRealm();
         realm.commitTransaction();
     }
 
@@ -45,7 +46,7 @@ public class ToDoAdaptor {
         return realm.where(ToDoData.class).findAll().size();
     }
 
-    public io.realm.RealmResults findToDoByName(String title){
+    public RealmResults<ToDoData> findToDoByName(String title){
         return realm.where(ToDoData.class).equalTo("title", title).findAll();
     }
 
@@ -158,19 +159,19 @@ public class ToDoAdaptor {
     }
 
     public String[] getTagStringArray(){
-        RealmResults results = realm.where(ToDoTag.class).findAll();
+        RealmResults<ToDoTag> results = realm.where(ToDoTag.class).findAll();
         String[] string = new String[results.size()];
         for(int i = 0; i < string.length; i++){
-            string[i] = results.get(i).toString();
+            string[i] = results.get(i).getName();
         }
         return string;
     }
 
     public boolean[] getTagFlagArray(String tagString){
-        RealmResults results = realm.where(ToDoTag.class).findAll();
+        RealmResults<ToDoTag> results = realm.where(ToDoTag.class).findAll();
         boolean[] chkTagFlag = new boolean[results.size()];
         for(int i = 0; i < chkTagFlag.length; i++){
-            chkTagFlag[i] = tagString.contains(results.get(i).toString());
+            chkTagFlag[i] = tagString.contains(results.get(i).getName());
         }
         return chkTagFlag;
     }

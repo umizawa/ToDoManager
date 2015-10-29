@@ -13,7 +13,7 @@ public class dataConverter {
 
     public static String getDateString(Calendar calendar){
         return String.valueOf(calendar.get(Calendar.YEAR)) + "年" +
-                String.valueOf(calendar.get(Calendar.MONTH)) + "月" +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) + "月" +
                 String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "日");
     }
 
@@ -30,7 +30,7 @@ public class dataConverter {
 
     public static String getDateTimeString(Calendar calendar){
         return String.valueOf(calendar.get(Calendar.YEAR)) + "年" +
-                String.valueOf(calendar.get(Calendar.MONTH)) + "月" +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) + "月" +
                 String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "日" + " " +
                 String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)) + "時" +
                 String.valueOf(calendar.get(Calendar.MINUTE)) + "分";

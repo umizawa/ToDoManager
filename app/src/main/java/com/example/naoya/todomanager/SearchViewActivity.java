@@ -94,7 +94,7 @@ public class SearchViewActivity extends AppCompatActivity implements SearchView.
         alertDialog.setMessage(ToDoAdaptor.getInstance().getToDoData(id).getTitle() + " を削除しますか？");
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                ToDoAdaptor.getInstance().remove(id);
+                ToDoAdaptor.getInstance().remove(ToDoData.class, id);
                 setSearchListView("");
                 toast("削除しました");
             }

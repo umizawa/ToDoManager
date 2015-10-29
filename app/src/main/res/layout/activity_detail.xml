@@ -123,18 +123,6 @@
                     android:textSize="20sp"
                     android:text="COMMENT"/>
                 <TextView
-                    android:id="@+id/label_edited_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="作成日:"/>
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/edited_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="YYYY/MM/DD HH:MM"/>
-                <TextView
                     android:id="@+id/label_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,6 +134,18 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:text="TAG"/>
+                <TextView
+                    android:id="@+id/label_edited_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作成日:"/>
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/edited_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="YYYY/MM/DD HH:MM"/>
            </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -19,7 +19,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ListView listView;
-    AlertDialog.Builder alertDialog;
     static final String REALM_FILE_NAME = "test.realm";
 
     @Override
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(cellAdapter);
-        alertDialog = new AlertDialog.Builder(this);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -58,19 +56,18 @@ public class MainActivity extends AppCompatActivity {
                 CellData cellData = (CellData)listView.getItemAtPosition(position);
                 final int toDoId = cellData.getId();
                 initDeleteDialog(toDoId);
-                alertDialog.show();
                 return true;
             }
         });
     }
 
     public void initDeleteDialog(final int id){
-
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("削除");
         alertDialog.setMessage(ToDoAdaptor.getInstance().getToDoData(id).getTitle() + "を削除しますか？");
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                ToDoAdaptor.getInstance().remove(id);
+                ToDoAdaptor.getInstance().remove(ToDoData.class, id);
                 setListView();
                 toast("削除しました");
             }
@@ -79,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+        alertDialog.show();
     }
 
     @Override

@@ -29,6 +29,11 @@ public class TagEditActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar_main);
         setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         setListView();
     }
 
@@ -82,10 +87,10 @@ public class TagEditActivity extends AppCompatActivity {
 
     public void initDeleteDialog(final int id){
         alertDialog.setTitle("削除");
-        alertDialog.setMessage(ToDoAdaptor.getInstance().getToDoData(id).getTitle() + "を削除しますか？");
+        alertDialog.setMessage(ToDoAdaptor.getInstance().getTag(id) + "を削除しますか？");
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                ToDoAdaptor.getInstance().remove(id);
+                ToDoAdaptor.getInstance().remove(ToDoTag.class, id);
                 setListView();
                 toast("削除しました");
             }
@@ -118,6 +123,7 @@ public class TagEditActivity extends AppCompatActivity {
 
     public void initEditDialog(final int id) {
         final EditText editView = new EditText(this);
+        editView.setText(ToDoAdaptor.getInstance().getTag(id));
         alertDialog.setTitle("タグの名前を入力してください");
         alertDialog.setView(editView);
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
