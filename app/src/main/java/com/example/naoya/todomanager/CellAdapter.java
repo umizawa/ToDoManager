@@ -1,6 +1,7 @@
 package com.example.naoya.todomanager;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,11 @@ public class CellAdapter extends BaseAdapter {
     private void setCellData(CellData cellData, CellHolder cellHolder) {
         cellHolder.image.setImageResource(cellData.getCellImageResourceId());
         cellHolder.cellTitle.setText(cellData.getCellTitle());
+        if(cellData.getImportance() >= 3) {
+            cellHolder.cellTitle.setTextColor(Color.RED);
+        } else {
+            cellHolder.cellTitle.setTextColor(Color.BLACK);
+        }
         cellHolder.dueDay.setText(convertDateToString(cellData.getCellDueDay()));
     }
 

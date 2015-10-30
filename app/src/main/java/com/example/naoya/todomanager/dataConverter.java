@@ -54,6 +54,9 @@ public class dataConverter {
             case "高":
                 importance = 2;
                 break;
+            case "最高":
+                importance = 3;
+                break;
             default:
                 importance = 0;
                 break;
@@ -72,6 +75,9 @@ public class dataConverter {
                 break;
             case 2:
                 string = "高";
+                break;
+            case 3:
+                string = "最高";
                 break;
             default:
                 string = "低";

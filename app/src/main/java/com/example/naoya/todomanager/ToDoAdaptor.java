@@ -103,25 +103,31 @@ public class ToDoAdaptor {
     }
 
     public void setRealmToCellDataList(List<CellData> list){
-        for (ToDoData toDoData : realm.where(ToDoData.class).findAll()) {
+        RealmResults<ToDoData> results =  realm.where(ToDoData.class).findAll();
+        results.sort("id");
+        for (ToDoData toDoData : results) {
             CellData cellData = new CellData(toDoData.getId(), toDoData.getImageResourceId(),
-                    toDoData.getDueDate(), toDoData.getTitle());
+                    toDoData.getDueDate(), toDoData.getTitle(), toDoData.getImportance());
             list.add(cellData);
             Log.d("myApp", "RW index = " + toDoData.getId());
         }
     }
 
     public void setRealmToCellDataList(List<CellData> list, String string){
-        for (ToDoData toDoData : realm.where(ToDoData.class).contains("title", string).findAll()) {
+        RealmResults<ToDoData> results = realm.where(ToDoData.class).contains("title", string).findAll();
+        results.sort("id");
+        for (ToDoData toDoData : results) {
             CellData cellData = new CellData(toDoData.getId(), toDoData.getImageResourceId(),
-                    toDoData.getDueDate(), toDoData.getTitle());
+                    toDoData.getDueDate(), toDoData.getTitle(), toDoData.getImportance());
             list.add(cellData);
             Log.d("myApp", "RW index = " + toDoData.getId());
         }
     }
 
     public void setRealmTagToCellDataList(List<TagCellData> list){
-        for (ToDoTag toDoTag : realm.where(ToDoTag.class).findAll()) {
+        RealmResults<ToDoTag> results =  realm.where(ToDoTag.class).findAll();
+        results.sort("id");
+        for (ToDoTag toDoTag : results) {
             TagCellData tagCellData= new TagCellData(toDoTag.getId(), toDoTag.getName());
             list.add(tagCellData);
             Log.d("myApp", "RW index = " + toDoTag.getId());
@@ -129,7 +135,9 @@ public class ToDoAdaptor {
     }
 
     public void setRealmTagToCellDataList(List<TagCellData> list, String string){
-        for (ToDoTag toDoTag : realm.where(ToDoTag.class).contains("title", string).findAll()) {
+        RealmResults<ToDoTag> results =  realm.where(ToDoTag.class).contains("title", string).findAll();
+        results.sort("id");
+        for (ToDoTag toDoTag : results) {
             TagCellData tagCellData = new TagCellData(toDoTag.getId(), toDoTag.getName());
             list.add(tagCellData);
             Log.d("myApp", "RW index = " + toDoTag.getId());
