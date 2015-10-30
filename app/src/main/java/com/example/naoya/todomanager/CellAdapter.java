@@ -7,19 +7,70 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CellAdapter extends BaseAdapter {
+public class CellAdapter extends BaseAdapter implements Filterable {
     private Context context;
+    android.widget.Filter filter;
+
+
+
     private List<CellData> cellDataList;
+    private List<CellData> mOriginalCellDataList;
 
     public CellAdapter(Context context, List<CellData> cellDataList) {
         this.context = context;
         this.cellDataList = cellDataList;
+        this.mOriginalCellDataList = cellDataList;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
+    public android.widget.Filter getFilter(){
+
+        filter = new android.widget.Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                cellDataList = (List<CellData>)results.values;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<CellData> filteredCellDataList = new ArrayList<>();
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = mOriginalCellDataList;
+                    results.count = mOriginalCellDataList.size();
+                } else {
+                    for (int i = 0; i < mOriginalCellDataList.size(); i++) {
+                        CellData cellData = mOriginalCellDataList.get(i);
+                        Log.d("cellData",cellData.getCellTitle());
+                        if (cellData.getCellTitle().contains(constraint.toString()))  {
+                            filteredCellDataList.add(cellData);
+                        }
+                    }
+                    results.count = filteredCellDataList.size();
+                    System.out.println(results.count);
+
+                    results.values = filteredCellDataList;
+                    Log.d("VALUES", results.values.toString());
+                }
+                return results;
+            }
+        };
+        return filter;
     }
 
     @Override

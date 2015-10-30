@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
@@ -105,6 +104,7 @@ public class ToDoAdaptor {
     public void setRealmToCellDataList(List<CellData> list){
         RealmResults<ToDoData> results =  realm.where(ToDoData.class).findAll();
         results.sort("id");
+        list.clear();
         for (ToDoData toDoData : results) {
             CellData cellData = new CellData(toDoData.getId(), toDoData.getImageResourceId(),
                     toDoData.getDueDate(), toDoData.getTitle(), toDoData.getImportance());

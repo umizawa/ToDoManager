@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ToDoAdaptor.getInstance().getRealmInstance(this, REALM_FILE_NAME);
         setListView();
+
         toast(ToDoAdaptor.getInstance().getResultSize() + "個の項目があります。");
     }
 
