@@ -1,26 +1,38 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.Activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.naoya.todomanager.CellAdapters.TagCellAdapter;
+import com.example.naoya.todomanager.CellAdapters.TagCellData;
+import com.example.naoya.todomanager.R;
+import com.example.naoya.todomanager.RealmObjects.ToDoAdaptor;
+import com.example.naoya.todomanager.RealmObjects.ToDoTag;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TagEditActivity extends AppCompatActivity {
+public class TagEditActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
-    AlertDialog.Builder alertDialog;
-    ListView listView;
+    private AlertDialog.Builder alertDialog;
+    private ListView listView;
+    private String filterWord = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,10 @@ public class TagEditActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_tag_edit, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView)searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(false);
         return true;
     }
 
@@ -56,6 +72,26 @@ public class TagEditActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        filterWord = newText;
+        if (TextUtils.isEmpty(newText)){
+            Filter filter = ((Filterable) listView.getAdapter()).getFilter();
+            filter.filter("");
+            Log.d("newText", "Empty");
+        } else {
+            Filter filter = ((Filterable) listView.getAdapter()).getFilter();
+            filter.filter(filterWord);
+            Log.d("newText", "Not empty");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String searchWord) {
+        return false;
     }
 
     public void setListView(){
@@ -92,6 +128,8 @@ public class TagEditActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 ToDoAdaptor.getInstance().remove(ToDoTag.class, id);
                 setListView();
+                Filter filter = ((Filterable) listView.getAdapter()).getFilter();
+                filter.filter(filterWord);
                 toast("削除しました");
             }
         });

@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -17,6 +17,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.example.naoya.todomanager.R;
+import com.example.naoya.todomanager.RealmObjects.ToDoAdaptor;
+import com.example.naoya.todomanager.RealmObjects.ToDoData;
+import com.example.naoya.todomanager.Utilities.dataConverter;
 
 import java.util.Calendar;
 

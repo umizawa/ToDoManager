@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.example.naoya.todomanager.R;
+import com.example.naoya.todomanager.RealmObjects.ToDoAdaptor;
+import com.example.naoya.todomanager.RealmObjects.ToDoData;
+import com.example.naoya.todomanager.Utilities.dataConverter;
 
 public class DetailActivity extends AppCompatActivity {
     int id;

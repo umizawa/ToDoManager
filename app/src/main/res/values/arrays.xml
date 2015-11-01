@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="navigation_drawer_items">
+        <item>タグ一覧</item>
+        <item>工事中</item>
+    </string-array>
     <string-array name="importance_values">
         <item>低</item>
         <item>中</item>

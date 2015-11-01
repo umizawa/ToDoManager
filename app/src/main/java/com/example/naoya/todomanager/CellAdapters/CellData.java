@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.CellAdapters;
 
 import java.util.Date;
 

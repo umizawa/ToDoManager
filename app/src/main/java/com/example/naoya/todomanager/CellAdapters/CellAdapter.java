@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.CellAdapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.naoya.todomanager.R;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,6 @@ import java.util.List;
 public class CellAdapter extends BaseAdapter implements Filterable {
     private Context context;
     android.widget.Filter filter;
-
-
 
     private List<CellData> cellDataList;
     private List<CellData> mOriginalCellDataList;

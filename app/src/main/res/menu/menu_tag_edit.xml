@@ -1,20 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.naoya.todomanager.TagEditActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    tools:context="com.example.naoya.todomanager.Activities.TagEditActivity">
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_add"
-        android:title="項目の追加"
+        android:title="@string/add"
         android:icon="@android:drawable/ic_menu_add"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/action_search"
-        android:title="検索"
+        android:id="@+id/menu_search"
+        android:title="@string/search"
         android:icon="@android:drawable/ic_menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom"/>
 
 </menu>

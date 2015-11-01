@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.naoya.todomanager.CellAdapters.CellAdapter;
+import com.example.naoya.todomanager.CellAdapters.CellData;
+import com.example.naoya.todomanager.R;
+import com.example.naoya.todomanager.RealmObjects.ToDoAdaptor;
+import com.example.naoya.todomanager.RealmObjects.ToDoData;
 
 import java.util.ArrayList;
 import java.util.List;

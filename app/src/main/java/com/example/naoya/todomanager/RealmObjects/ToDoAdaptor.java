@@ -1,7 +1,10 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.RealmObjects;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.example.naoya.todomanager.CellAdapters.CellData;
+import com.example.naoya.todomanager.CellAdapters.TagCellData;
 
 import java.util.Calendar;
 import java.util.Date;

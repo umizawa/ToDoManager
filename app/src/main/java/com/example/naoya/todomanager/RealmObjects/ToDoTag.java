@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.RealmObjects;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

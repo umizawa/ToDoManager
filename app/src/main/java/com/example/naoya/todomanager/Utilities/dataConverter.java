@@ -1,4 +1,4 @@
-package com.example.naoya.todomanager;
+package com.example.naoya.todomanager.Utilities;
 
 import java.util.Calendar;
 import java.util.Date;
