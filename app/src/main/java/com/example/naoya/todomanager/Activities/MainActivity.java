@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
+
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ToDoAdaptor.getInstance().getRealmInstance(this, REALM_FILE_NAME);
         setListView();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                toast("項目を追加します");
+                intent = new Intent(MainActivity.this, EditActivity.class);
+                startActivity(intent);
+            }
+        });
 
         toast(ToDoAdaptor.getInstance().getResultSize() + "個の項目があります。");
     }
