@@ -11,11 +11,6 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_add"
-        android:title="項目の追加"
-        android:icon="@android:drawable/ic_menu_add"
-        app:showAsAction="ifRoom"/>
-    <item
         android:id="@+id/action_search"
         android:title="検索"
         android:icon="@android:drawable/ic_menu_search"

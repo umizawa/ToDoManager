@@ -1,7 +1,9 @@
 package com.example.naoya.todomanager.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -46,6 +48,15 @@ public class TagEditActivity extends AppCompatActivity implements SearchView.OnQ
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initEditDialog();
+            }
+        });
+
         setListView();
     }
 
@@ -77,12 +88,11 @@ public class TagEditActivity extends AppCompatActivity implements SearchView.OnQ
     @Override
     public boolean onQueryTextChange(String newText) {
         filterWord = newText;
+        Filter filter = ((Filterable) listView.getAdapter()).getFilter();
         if (TextUtils.isEmpty(newText)){
-            Filter filter = ((Filterable) listView.getAdapter()).getFilter();
             filter.filter("");
             Log.d("newText", "Empty");
         } else {
-            Filter filter = ((Filterable) listView.getAdapter()).getFilter();
             filter.filter(filterWord);
             Log.d("newText", "Not empty");
         }
